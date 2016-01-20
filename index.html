@@ -116,7 +116,9 @@
                             <div class="row" ng-if="costEstimate.getProductGroup() == productGroupSlug">
                                 <div class="col-lg-4 text-center"
                                      ng-repeat="(featureSlug, feature) in costEstimate.config[productGroupSlug]['additional-features']">
-                                    <button type="button" class="btn btn-default">
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="costEstimate.setFeature(featureSlug)"
+                                            ng-class="{'btn-primary': costEstimate.isFeatureChoosen(featureSlug)}">
                                         {{ feature.name }}
                                     </button>
                                 </div>
@@ -613,12 +615,27 @@
                 /** ADDITIONAL FEATURES **/
                 costEstimate.__additionalFeatures = {};
 
-                costEstimate.addFeature = function (feature) {
+                costEstimate.setFeature = function (feature) {
+                    if (costEstimate.isFeatureChoosen(feature)) {
+                        delete costEstimate.__additionalFeatures[costEstimate.getProductGroup()][feature];
+                    } else {
+                        if (!costEstimate.__additionalFeatures.hasOwnProperty([costEstimate.getProductGroup()])) {
+                            costEstimate.__additionalFeatures[costEstimate.getProductGroup()] = {};
+                        }
 
+                        costEstimate.__additionalFeatures[costEstimate.getProductGroup()][feature] = true;
+                    }
+
+                    costEstimate.setStep();
                 };
 
-                costEstimate.removeFeature = function (feature) {
+                costEstimate.isFeatureChoosen = function (feature) {
+                    if (costEstimate.__additionalFeatures.hasOwnProperty([costEstimate.getProductGroup()]) &&
+                            costEstimate.__additionalFeatures[costEstimate.getProductGroup()].hasOwnProperty(feature)) {
+                        return costEstimate.__additionalFeatures[costEstimate.getProductGroup()][feature];
+                    }
 
+                    return false;
                 };
 
                 /** SET quality **/
