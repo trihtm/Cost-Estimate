@@ -45,7 +45,7 @@
                     <hr />
 
                     <div class="control text-right">
-                        <button type="button" class="btn btn-primary">Buy now</button>
+                        <button type="button" class="btn btn-reserve" ng-class="{'btn-primary': costEstimate.getStep() == 5}">Buy now</button>
                     </div>
                 </div>
 
@@ -118,6 +118,25 @@
                                      ng-repeat="(featureSlug, feature) in costEstimate.config[productGroupSlug]['additional-features']">
                                     <button type="button" class="btn btn-default">
                                         {{ feature.name }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="costEstimate.getStep() >= 4">
+                        <h3>Last step. Choose quality multiplier</h3>
+
+                        <hr />
+
+                        <div ng-repeat="(productGroupSlug, productGroup) in costEstimate.config">
+                            <div class="row" ng-if="costEstimate.getProductGroup() == productGroupSlug">
+                                <div class="col-lg-4 text-center"
+                                     ng-repeat="(qualitySlug, quality) in costEstimate.config[productGroupSlug]['quality']">
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="costEstimate.setQuality(qualitySlug)"
+                                            ng-class="{'btn-primary': costEstimate.getQuality() == qualitySlug}">
+                                        {{ quality.name }}
                                     </button>
                                 </div>
                             </div>
@@ -199,6 +218,16 @@
 
                         'data-analytics': {
                             'name': 'Data Analytics ( Basic )'
+                        }
+                    },
+
+                    'quality': {
+                        'prototype': {
+                            'name': 'Prototype Quality'
+                        },
+
+                        'release': {
+                            'name': 'Release Quality'
                         }
                     }
                 },
@@ -296,6 +325,16 @@
                         'data-analytics': {
                             'name': 'Data Analytics ( Basic )'
                         }
+                    },
+
+                    'quality': {
+                        'prototype': {
+                            'name': 'Prototype Quality'
+                        },
+
+                        'release': {
+                            'name': 'Release Quality'
+                        }
                     }
                 },
 
@@ -350,6 +389,16 @@
 
                         'cms-wordpress': {
                             'name': 'CMS ( Word Press )'
+                        }
+                    },
+
+                    'quality': {
+                        'prototype': {
+                            'name': 'Prototype Quality'
+                        },
+
+                        'release': {
+                            'name': 'Release Quality'
                         }
                     }
                 },
@@ -423,6 +472,16 @@
                         'data-analytics': {
                             'name': 'Data Analytics ( Basic )'
                         }
+                    },
+
+                    'quality': {
+                        'prototype': {
+                            'name': 'Prototype Quality'
+                        },
+
+                        'release': {
+                            'name': 'Release Quality'
+                        }
                     }
                 }
             };
@@ -462,14 +521,19 @@
                 costEstimate.setStep = function () {
                     var step = 1;
 
-                    if (costEstimate.__productGroup != null) {
+                    if (costEstimate.getProductGroup() != null) {
                         step = 2;
 
-                        if (Object.keys(costEstimate.__productTypes).length > 0) {
+                        if (costEstimate.__productTypes.hasOwnProperty([costEstimate.getProductGroup()]) &&
+                            Object.keys(costEstimate.__productTypes[costEstimate.getProductGroup()]).length > 0) {
                             step = 3;
 
-                            if (costEstimate.__productScale != null) {
+                            if (costEstimate.getProductScale() != null) {
                                 step = 4;
+
+                                if (costEstimate.getQuality() != null) {
+                                    step = 5;
+                                }
                             }
                         }
                     }
@@ -511,17 +575,22 @@
 
                 costEstimate.setProductType = function (productType) {
                     if (costEstimate.isProductTypeChoosen(productType)) {
-                        delete costEstimate.__productTypes[productType];
+                        delete costEstimate.__productTypes[costEstimate.getProductGroup()][productType];
                     } else {
-                        costEstimate.__productTypes[productType] = true;
+                        if (!costEstimate.__productTypes.hasOwnProperty([costEstimate.getProductGroup()])) {
+                            costEstimate.__productTypes[costEstimate.getProductGroup()] = {};
+                        }
+
+                        costEstimate.__productTypes[costEstimate.getProductGroup()][productType] = true;
                     }
 
                     costEstimate.setStep();
                 };
 
                 costEstimate.isProductTypeChoosen = function (productType) {
-                    if (costEstimate.__productTypes.hasOwnProperty(productType)) {
-                        return costEstimate.__productTypes[productType];
+                    if (costEstimate.__productTypes.hasOwnProperty([costEstimate.getProductGroup()]) &&
+                        costEstimate.__productTypes[costEstimate.getProductGroup()].hasOwnProperty(productType)) {
+                        return costEstimate.__productTypes[costEstimate.getProductGroup()][productType];
                     }
 
                     return false;
@@ -550,6 +619,19 @@
 
                 costEstimate.removeFeature = function (feature) {
 
+                };
+
+                /** SET quality **/
+                costEstimate.__quality = null;
+
+                costEstimate.setQuality = function (quality) {
+                    costEstimate.__quality = quality;
+
+                    costEstimate.setStep();
+                };
+
+                costEstimate.getQuality = function () {
+                    return costEstimate.__quality;
                 };
             });
         </script>
