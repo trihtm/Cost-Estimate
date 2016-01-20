@@ -113,15 +113,33 @@
                         <hr />
 
                         <div ng-repeat="(productGroupSlug, productGroup) in costEstimate.config">
-                            <div class="row" ng-if="costEstimate.getProductGroup() == productGroupSlug">
-                                <div class="col-lg-4 text-center"
-                                     ng-repeat="(featureSlug, feature) in costEstimate.config[productGroupSlug]['additional-features']">
-                                    <button type="button" class="btn btn-default"
-                                            ng-click="costEstimate.setFeature(featureSlug)"
-                                            ng-class="{'btn-primary': costEstimate.isFeatureChoosen(featureSlug)}">
-                                        {{ feature.name }}
-                                    </button>
-                                </div>
+                            <div ng-if="costEstimate.getProductGroup() == productGroupSlug">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>Feature name</th>
+
+                                        <th>Price</th>
+
+                                        <th>Action</th>
+                                    </tr>
+                                    <tr ng-repeat="(featureSlug, feature) in costEstimate.config[productGroupSlug]['additional-features']">
+                                        <td>
+                                            {{ feature.name }}
+                                        </td>
+
+                                        <td>
+                                            $
+                                        </td>
+
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-default"
+                                                    ng-click="costEstimate.setFeature(featureSlug)"
+                                                    ng-class="{'btn-primary': costEstimate.isFeatureChoosen(featureSlug)}">
+                                                Choose
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -144,6 +162,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <br />
                 </div>
             </div>
         </div>
