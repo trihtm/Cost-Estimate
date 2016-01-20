@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="costEstimateApp">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Project Cost Estimate</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body ng-controller="costEstimateController as costEstimate">
+        <div class="container">
+            <div class="page-header">
+                <h1>Cost Estimate</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <h3>Product Summary</h3>
+
+                    <hr />
+
+                    <p>- Working hours per Day: <b>{{ WORKING_HOURS_PER_DAY }} hours</b></p>
+                    <p>- Price per hour: <b>${{ PRICE_PER_HOUR }}</b></p>
+
+                    <dl class="dl-horizontal">
+                        <dt>Subtotal</dt>
+                        <dd>${{ costEstimate.getSubPrice() }}</dd>
+
+                        <dt>VAT({{ TAX }}%)</dt>
+                        <dd>${{ costEstimate.getVAT() }}</dd>
+
+                        <dt>Total</dt>
+                        <dd>${{ costEstimate.getTotalPrice() }}</dd>
+                    </dl>
+
+                    <hr />
+
+                    <div class="control text-right">
+                        <button type="button" class="btn btn-primary">Buy now</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar"
+                             aria-valuenow="{{ costEstimate.getProgress() }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ costEstimate.getProgress() }}%;">
+                            <span class="sr-only">{{ costEstimate.getProgress() }}% Complete</span>
+                        </div>
+                    </div>
+
+                    <h3>Step 1. Choose a product group</h3>
+
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-lg-3 text-center" ng-repeat="(key, productGroup) in costEstimate.config">
+                            <button type="button" class="btn btn-default" ng-click="costEstimate.setProductGroup(key)" ng-class="{'btn-primary': costEstimate.getProductGroup() == key}">
+                                {{ productGroup.name }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div ng-if="costEstimate.getStep() >= 2">
+                        <h3>Step 2. Choose a product type</h3>
+
+                        <hr />
+
+                        <div ng-repeat="(productGroupSlug, productGroup) in costEstimate.config">
+                            <div class="row" ng-if="costEstimate.getProductGroup() == productGroupSlug">
+                                <div class="col-lg-3 text-center"
+                                     ng-repeat="(productTypeSlug, productType) in costEstimate.config[productGroupSlug]['types']">
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="costEstimate.setProductType(productTypeSlug)"
+                                            ng-class="{'btn-primary': costEstimate.isProductTypeChoosen(productTypeSlug)}">
+                                        {{ productType.name }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="costEstimate.getStep() >= 3">
+                        <h3>Step 3. Choose a product scale</h3>
+
+                        <hr />
+
+                        <div ng-repeat="(productGroupSlug, productGroup) in costEstimate.config">
+                            <div class="row" ng-if="costEstimate.getProductGroup() == productGroupSlug">
+                                <div class="col-lg-3 text-center"
+                                     ng-repeat="(productScaleSlug, productScale) in costEstimate.config[productGroupSlug]['scales']">
+                                    <button type="button" class="btn btn-default">
+                                        {{ productScale.name }} ({{ productScale.pages }} pages)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+            var costEstimateConfig = {
+                'desktop-app': {
+                    'name': 'Desktop App',
+
+                    'types': {
+                        'windows': {
+                            'name': 'Windows'
+                        },
+
+                        'mac': {
+                            'name': 'Mac'
+                        },
+
+                        'linux': {
+                            'name': 'Linux'
+                        }
+                    },
+
+                    'scales': {
+                        'simple': {
+                            'pages': 10,
+                            'name': 'Simple',
+                            'mandays': 15
+                        },
+
+                        'moderate': {
+                            'pages': 20,
+                            'name': 'Moderate',
+                            'mandays': 25
+                        },
+
+                        'large': {
+                            'pages': 30,
+                            'name': 'Large',
+                            'mandays': 40
+                        }
+                    },
+
+                    'additional-features': {
+
+                    }
+                },
+
+                'mobile-app': {
+                    'name': 'Mobile App',
+
+                    'types': {
+                        'ios-mobile': {
+                            'name': 'iPhone'
+                        },
+
+                        'ios-tablet': {
+                            'name': 'iPad'
+                        },
+
+                        'ios-watch': {
+                            'name': 'iWatch'
+                        },
+
+                        'android-mobile': {
+                            'name': 'Android Mobile'
+                        },
+
+                        'android-tablet': {
+                            'name': 'Android Tablet'
+                        },
+
+                        'android-watch': {
+                            'name': 'Android Watch'
+                        },
+
+                        'wp-mobile': {
+                            'name': 'WindowsPhone Mobile'
+                        },
+
+                        'wp-tablet': {
+                            'name': 'WindowsPhone Tablet'
+                        },
+
+                        'wp-watch': {
+                            'name': 'WindowsPhone Watch'
+                        }
+                    },
+
+                    'scales': {
+                        'simple': {
+                            'pages': 10,
+                            'name': 'Simple',
+                            'mandays': 15
+                        },
+
+                        'moderate': {
+                            'pages': 20,
+                            'name': 'Moderate',
+                            'mandays': 25
+                        },
+
+                        'large': {
+                            'pages': 30,
+                            'name': 'Large',
+                            'mandays': 40
+                        }
+                    }
+                },
+
+                'static-website': {
+                    'name': 'Static Website',
+                    'types': {
+                        'pc': {
+                            'name': 'PC Site'
+                        },
+
+                        'mobile': {
+                            'name': 'Mobile Site'
+                        },
+
+                        'responsive': {
+                            'name': 'Responsive Site Support Both'
+                        }
+                    },
+
+                    'scales': {
+                        'simple': {
+                            'pages': 5,
+                            'name': 'Simple',
+                            'mandays': 5
+                        },
+
+                        'moderate': {
+                            'pages': 10,
+                            'name': 'Moderate',
+                            'mandays': 8
+                        },
+
+                        'large': {
+                            'pages': 20,
+                            'name': 'Large',
+                            'mandays': 10
+                        }
+                    }
+                },
+
+                'web-app': {
+                    'name': 'Web App',
+
+                    'types': {
+                        'pc': {
+                            'name': 'PC Site'
+                        },
+
+                        'mobile': {
+                            'name': 'Mobile Site'
+                        },
+
+                        'responsive': {
+                            'name': 'Responsive Site Support Both'
+                        }
+                    },
+
+                    'scales': {
+                        'simple': {
+                            'pages': 10,
+                            'name': 'Simple',
+                            'mandays': 15
+                        },
+
+                        'moderate': {
+                            'pages': 20,
+                            'name': 'Moderate',
+                            'mandays': 25
+                        },
+
+                        'large': {
+                            'pages': 30,
+                            'name': 'Large',
+                            'mandays': 40
+                        }
+                    }
+                }
+            };
+        </script>
+
+        <!--- Run angular js -->
+        <script type="text/javascript">
+            var costEstimateApp = angular.module('costEstimateApp', []);
+
+            costEstimateApp.controller('costEstimateController', function ($scope) {
+                var costEstimate = this;
+
+                // CONSTANTS
+                $scope.WORKING_HOURS_PER_DAY = 8; // hours
+                $scope.PRICE_PER_HOUR = 25; // dollars
+                $scope.TAX = 10; // Percent
+
+                costEstimate.__subTotalPrice = 0;
+
+                costEstimate.getSubPrice = function () {
+                    return costEstimate.__subTotalPrice;
+                };
+
+                costEstimate.getVAT = function () {
+                    return costEstimate.getSubPrice() * $scope.TAX / 100;
+                };
+
+                costEstimate.getTotalPrice = function () {
+                    return costEstimate.getSubPrice() + costEstimate.getVAT();
+                };
+
+                costEstimate.config = costEstimateConfig;
+
+                /** STEP **/
+                costEstimate.__step = 1;
+
+                costEstimate.setStep = function (step) {
+                    costEstimate.__step = step;
+                };
+
+                costEstimate.getStep = function () {
+                    return costEstimate.__step;
+                };
+
+                /** PROGRESS **/
+                costEstimate.__progress = 0;
+
+                costEstimate.setProgress = function (progress) {
+                    costEstimate.__progress = progress;
+                };
+
+                costEstimate.getProgress = function () {
+                    return costEstimate.__progress;
+                };
+
+                /** PRODUCT GROUP **/
+                costEstimate.__productGroup = null;
+
+                costEstimate.setProductGroup = function (productGroup) {
+                    // Increase step
+                    costEstimate.setStep(2);
+
+                    // Set product group
+                    costEstimate.__productGroup = productGroup;
+                };
+
+                costEstimate.getProductGroup = function () {
+                    return costEstimate.__productGroup;
+                };
+
+                /** PRODUCT TYPE **/
+                costEstimate.__productTypes = {};
+
+                costEstimate.setProductType = function (productType) {
+                    var step = 3;
+
+                    if (costEstimate.isProductTypeChoosen(productType)) {
+                        delete costEstimate.__productTypes[productType];
+                    } else {
+                        costEstimate.__productTypes[productType] = true;
+                    }
+
+                    if (Object.keys(costEstimate.__productTypes).length == 0) {
+                        step = 2;
+                    }
+
+                    costEstimate.setStep(step);
+                };
+
+                costEstimate.isProductTypeChoosen = function (productType) {
+                    if (costEstimate.__productTypes.hasOwnProperty(productType)) {
+                        return costEstimate.__productTypes[productType];
+                    }
+
+                    return false;
+                };
+
+                /** PRODUCT SCALE **/
+                costEstimate.__productScale = null;
+
+                costEstimate.setProductScale = function (productScale) {
+                    // Increase step
+                    costEstimate.setStep(4);
+
+                    // Set product scale
+                    costEstimate.__productScale = productScale;
+                };
+
+                costEstimate.getProductScale = function () {
+                    return costEstimate.__productScale;
+                };
+
+                /** ADDITIONAL FEATURES **/
+                costEstimate.__additionalFeatures = {};
+
+                costEstimate.addFeature = function (feature) {
+
+                };
+
+                costEstimate.removeFeature = function (feature) {
+
+                };
+            });
+        </script>
+    </body>
+</html>
