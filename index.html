@@ -114,27 +114,42 @@
                             <div ng-if="costEstimate.getProductGroup() == productGroupSlug">
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th>Feature name</th>
+                                        <th width="60%">Feature name</th>
 
-                                        <th>Price</th>
-
-                                        <th>Action</th>
+                                        <th width="40%">Action</th>
                                     </tr>
+
                                     <tr ng-repeat="(featureSlug, feature) in costEstimate.config[productGroupSlug]['additional-features']">
                                         <td>
                                             {{ feature.name }}
                                         </td>
 
-                                        <td>
-                                            $
-                                        </td>
-
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-default"
-                                                    ng-click="costEstimate.setFeature(featureSlug)"
-                                                    ng-class="{'btn-primary': costEstimate.isFeatureChoosen(featureSlug)}">
-                                                Choose
-                                            </button>
+                                            <div ng-if="feature.extraForm && featureSlug == 'sns-login'">
+                                                <div class="checkbox" ng-repeat="(snsSlug, sns) in feature.lists">
+                                                    <label>
+                                                        <input type="checkbox" name="sns[]" value="{{ snsSlug }}" /> {{ sns.name }}
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-inline" ng-if="feature.extraForm && featureSlug == 'other-service-integration'">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control" value="0" min="0" />
+
+                                                        <div class="input-group-addon">services</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div ng-if="!feature.extraForm">
+                                                <button type="button" class="btn btn-default"
+                                                        ng-click="costEstimate.setFeature(featureSlug)"
+                                                        ng-class="{'btn-primary': costEstimate.isFeatureChoosen(featureSlug)}">
+                                                    Apply
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 </table>

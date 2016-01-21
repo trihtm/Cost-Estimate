@@ -45,33 +45,57 @@ var costEstimateConfig = {
             },
 
             'admin-system': {
-                'name': 'Admin System (10 views)'
+                'name': 'Admin System (10 views)',
+                'mandays': 4
             },
 
             'sns-login': {
-                'name': 'SNS Login ( Facebook / Twitter / Google+ / Instagram )',
-                'extraForm': true
+                'name': 'Social Network System Login',
+                'extraForm': true,
+                'each': 1,
+                'lists': {
+                    'facebook': {
+                        'name': 'Facebook'
+                    },
+
+                    'google': {
+                        'name': 'Google'
+                    },
+
+                    'twitter': {
+                        'name': 'Twitter'
+                    },
+
+                    'instagram': {
+                        'name': 'Instagram'
+                    }
+                }
             },
 
             'newsletter': {
-                'name': 'NewsLetter Sending System'
+                'name': 'NewsLetter Sending System',
+                'mandays': 3
             },
 
             'notification': {
-                'name': 'Push Notification Sending System'
+                'name': 'Push Notification Sending System',
+                'mandays': 3
             },
 
             'online-payment': {
-                'name': 'Online Payment'
+                'name': 'Online Payment',
+                'mandays': 10
             },
 
             'other-service-integration': {
                 'name': 'Other Service Integration ( API Provided Services )',
-                'extraForm': true
+                'extraForm': true,
+                'each': 2
             },
 
             'data-analytics': {
-                'name': 'Data Analytics ( Basic )'
+                'name': 'Data Analytics ( Basic )',
+                'mandays': 5
             }
         },
 
@@ -164,33 +188,57 @@ var costEstimateConfig = {
             },
 
             'admin-system': {
-                'name': 'Admin System (10 views)'
+                'name': 'Admin System (10 views)',
+                'mandays': 4
             },
 
             'sns-login': {
-                'name': 'SNS Login ( Facebook / Twitter / Google+ / Instagram )',
-                'extraForm': true
+                'name': 'Social Network System Login',
+                'extraForm': true,
+                'each': 1,
+                'lists': {
+                    'facebook': {
+                        'name': 'Facebook'
+                    },
+
+                    'google': {
+                        'name': 'Google'
+                    },
+
+                    'twitter': {
+                        'name': 'Twitter'
+                    },
+
+                    'instagram': {
+                        'name': 'Instagram'
+                    }
+                }
             },
 
             'newsletter': {
-                'name': 'NewsLetter Sending System'
+                'name': 'NewsLetter Sending System',
+                'mandays': 3
             },
 
             'notification': {
-                'name': 'Push Notification Sending System'
+                'name': 'Push Notification Sending System',
+                'mandays': 3
             },
 
             'online-payment': {
-                'name': 'Online Payment'
+                'name': 'Online Payment',
+                'mandays': 10
             },
 
             'other-service-integration': {
                 'name': 'Other Service Integration ( API Provided Services )',
-                'extraForm': true
+                'extraForm': true,
+                'each': 2
             },
 
             'data-analytics': {
-                'name': 'Data Analytics ( Basic )'
+                'name': 'Data Analytics ( Basic )',
+                'mandays': 5
             }
         },
 
@@ -251,15 +299,18 @@ var costEstimateConfig = {
             },
 
             'contact-form': {
-                'name': 'Contact Form'
+                'name': 'Contact Form',
+                'mandays': 1
             },
 
             'cms-original': {
-                'name': 'CMS ( Original )'
+                'name': 'CMS ( Original )',
+                'mandays': 10
             },
 
             'cms-wordpress': {
-                'name': 'CMS ( Word Press )'
+                'name': 'CMS ( Word Press )',
+                'mandays': 4
             }
         },
 
@@ -321,33 +372,57 @@ var costEstimateConfig = {
             },
 
             'admin-system': {
-                'name': 'Admin System (10 views)'
+                'name': 'Admin System (10 views)',
+                'mandays': 4
             },
 
             'sns-login': {
-                'name': 'SNS Login ( Facebook / Twitter / Google+ / Instagram )',
-                'extraForm': true
+                'name': 'Social Network System Login',
+                'extraForm': true,
+                'each': 1,
+                'lists': {
+                    'facebook': {
+                        'name': 'Facebook'
+                    },
+
+                    'google': {
+                        'name': 'Google'
+                    },
+
+                    'twitter': {
+                        'name': 'Twitter'
+                    },
+
+                    'instagram': {
+                        'name': 'Instagram'
+                    }
+                }
             },
 
             'newsletter': {
-                'name': 'NewsLetter Sending System'
+                'name': 'NewsLetter Sending System',
+                'mandays': 3
             },
 
             'notification': {
-                'name': 'Push Notification Sending System'
+                'name': 'Push Notification Sending System',
+                'mandays': 3
             },
 
             'online-payment': {
-                'name': 'Online Payment'
+                'name': 'Online Payment',
+                'mandays': 10
             },
 
             'other-service-integration': {
                 'name': 'Other Service Integration ( API Provided Services )',
-                'extraForm': true
+                'extraForm': true,
+                'each': 2
             },
 
             'data-analytics': {
-                'name': 'Data Analytics ( Basic )'
+                'name': 'Data Analytics ( Basic )',
+                'mandays': 5
             }
         },
 
