@@ -136,7 +136,9 @@
                                             <div class="form-inline" ng-if="feature.extraForm && featureSlug == 'other-service-integration'">
                                                 <div class="form-group">
                                                     <div class="input-group">
-                                                        <input type="number" class="form-control" value="0" min="0" max="99" required="required" />
+                                                        <input type="number" class="form-control" value="0" min="0" max="99" required="required"
+                                                            ng-init="costEstimate.__extraFeatures[productGroupSlug][featureSlug] = 0"
+                                                            ng-model="costEstimate.__extraFeatures[productGroupSlug][featureSlug]" ng-change="costEstimate.otherServiceFeatureChange()" />
 
                                                         <div class="input-group-addon">services</div>
                                                     </div>

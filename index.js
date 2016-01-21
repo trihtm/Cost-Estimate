@@ -96,6 +96,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
 
         // ADDITIONAL FEATURES
         if (this.getStep() >= 4) {
+            var data;
             var additionalFeatures = this.__additionalFeatures[productGroup];
 
             for (var featureSlug in additionalFeatures) {
@@ -109,13 +110,24 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
                             subPrice += basePrice * 0.5;
                         }
                     } else {
-                        var data = this.config[productGroup]['additional-features'][featureSlug];
+                        data = this.config[productGroup]['additional-features'][featureSlug];
 
                         if (typeof data.mandays != undefined) {
                             subPrice += data.mandays;
                         }
                     }
                 }
+            }
+
+            // Other service integration
+            if (typeof this.__extraFeatures[this.getProductGroup()] != typeof undefined &&
+                typeof this.__extraFeatures[this.getProductGroup()]['other-service-integration'] != typeof undefined
+            ) {
+                data = this.config[productGroup]['additional-features']['other-service-integration'];
+
+                var quantityOtherSerivce = this.__extraFeatures[this.getProductGroup()]['other-service-integration'];
+
+                subPrice += quantityOtherSerivce * data['each'];
             }
         }
 
@@ -227,9 +239,10 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
     };
 
     costEstimate.__extraFeatures = {};
+
     costEstimate.otherServiceFeatureChange = function () {
-        console.log(a);
-        console.log(b);
+        this.setStep();
+        this.setSubPrice();
     };
 
     /** SET quality **/
