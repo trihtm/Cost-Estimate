@@ -119,6 +119,26 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
                 }
             }
 
+            // SNS
+            if (typeof this.__extraFeatures[this.getProductGroup()] != typeof undefined &&
+                typeof this.__extraFeatures[this.getProductGroup()]['sns-login'] != typeof undefined
+            ) {
+                data = this.config[productGroup]['additional-features']['sns-login'];
+
+                var checkboxes = this.__extraFeatures[this.getProductGroup()]['sns-login'];
+                var total = 0;
+
+                for (var snsSlug in checkboxes) {
+                    var status = checkboxes[snsSlug];
+
+                    if (status) {
+                        total ++;
+                    }
+                }
+
+                subPrice += total * data['each'];
+            }
+
             // Other service integration
             if (typeof this.__extraFeatures[this.getProductGroup()] != typeof undefined &&
                 typeof this.__extraFeatures[this.getProductGroup()]['other-service-integration'] != typeof undefined

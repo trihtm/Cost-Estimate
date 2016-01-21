@@ -128,7 +128,11 @@
                                             <div ng-if="feature.extraForm && featureSlug == 'sns-login'">
                                                 <div class="checkbox" ng-repeat="(snsSlug, sns) in feature.lists">
                                                     <label>
-                                                        <input type="checkbox" name="sns[]" value="{{ snsSlug }}" /> {{ sns.name }}
+                                                        <input type="checkbox" name="sns[]" value="{{ snsSlug }}"
+                                                            ng-model="costEstimate.__extraFeatures[productGroupSlug][featureSlug][snsSlug]" ng-change="costEstimate.otherServiceFeatureChange()"
+                                                        />
+
+                                                        {{ sns.name }}
                                                     </label>
                                                 </div>
                                             </div>
