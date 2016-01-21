@@ -69,6 +69,8 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
             basePrice = this.config[productGroup]['scales'][productScale]['mandays'];
         }
 
+        var supportBoth = false;
+
         // PRODUCT TYPES
         if (this.getStep() >= 4) {
             var productTypes = this.__productTypes[productGroup];
@@ -88,6 +90,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
                 typeof productTypes['mobile'] != typeof undefined &&
                 productTypes['pc'] && productTypes['mobile']) {
                 subPrice = basePrice * 1.5;
+                supportBoth = true;
             }
         }
 
@@ -101,6 +104,10 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
                 if (status) {
                     if (featureSlug == 'design') {
                         subPrice += 5 + basePrice * 0.2;
+                    } else if (featureSlug == 'responsive') {
+                        if (!supportBoth) {
+                            subPrice += basePrice * 0.5;
+                        }
                     } else {
                         var data = this.config[productGroup]['additional-features'][featureSlug];
 
@@ -217,6 +224,12 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
         }
 
         return false;
+    };
+
+    costEstimate.__extraFeatures = {};
+    costEstimate.otherServiceFeatureChange = function () {
+        console.log(a);
+        console.log(b);
     };
 
     /** SET quality **/
