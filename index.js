@@ -17,67 +17,67 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
     costEstimate.setStep = function () {
         var step = 1;
 
-        if (costEstimate.getProductGroup() != null) {
+        if (this.getProductGroup() != null) {
             step = 2;
 
-            if (costEstimate.__productTypes.hasOwnProperty([costEstimate.getProductGroup()]) &&
-                Object.keys(costEstimate.__productTypes[costEstimate.getProductGroup()]).length > 0) {
+            if (this.__productTypes.hasOwnProperty([this.getProductGroup()]) &&
+                Object.keys(this.__productTypes[this.getProductGroup()]).length > 0) {
                 step = 3;
 
-                if (costEstimate.getProductScale() != null) {
+                if (this.getProductScale() != null) {
                     step = 4;
 
-                    if (costEstimate.getQuality() != null) {
+                    if (this.getQuality() != null) {
                         step = 5;
                     }
                 }
             }
         }
 
-        costEstimate.__step = step;
-        costEstimate.setProgress(step / 5 * 100);
+        this.__step = step;
+        this.setProgress(step / 5 * 100);
     };
 
     costEstimate.getStep = function () {
-        return costEstimate.__step;
+        return this.__step;
     };
 
     /** PRICE **/
     costEstimate.__subTotalPrice = 0;
 
     costEstimate.getSubPrice = function () {
-        return costEstimate.__subTotalPrice;
+        return this.__subTotalPrice;
     };
 
     costEstimate.getVAT = function () {
-        return costEstimate.getSubPrice() * $scope.TAX / 100;
+        return this.getSubPrice() * $scope.TAX / 100;
     };
 
     costEstimate.getTotalPrice = function () {
-        return costEstimate.getSubPrice() + costEstimate.getVAT();
+        return this.getSubPrice() + this.getVAT();
     };
 
     costEstimate.setSubPrice = function () {
         var basePrice = 0.00;
         var subPrice = 0.00;
 
-        var productGroup = costEstimate.getProductGroup();
-        var productScale = costEstimate.getProductScale();
+        var productGroup = this.getProductGroup();
+        var productScale = this.getProductScale();
 
         // PRODUCT GROUP & SCALE
-        if (costEstimate.getStep() >= 4) {
-            basePrice = costEstimate.config[productGroup]['scales'][productScale]['mandays'];
+        if (this.getStep() >= 4) {
+            basePrice = this.config[productGroup]['scales'][productScale]['mandays'];
         }
 
         // PRODUCT TYPES
-        if (costEstimate.getStep() >= 4) {
-            var productTypes = costEstimate.__productTypes[productGroup];
+        if (this.getStep() >= 4) {
+            var productTypes = this.__productTypes[productGroup];
 
             for (var productTypeSlug in productTypes) {
                 var status = productTypes[productTypeSlug];
 
                 if (status) {
-                    var multiple = costEstimate.config[productGroup]['types'][productTypeSlug]['multiplier'];
+                    var multiple = this.config[productGroup]['types'][productTypeSlug]['multiplier'];
 
                     subPrice += basePrice * multiple;
                 }
@@ -92,8 +92,8 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
         }
 
         // ADDITIONAL FEATURES
-        if (costEstimate.getStep() >= 4) {
-            var additionalFeatures = costEstimate.__additionalFeatures[productGroup];
+        if (this.getStep() >= 4) {
+            var additionalFeatures = this.__additionalFeatures[productGroup];
 
             for (var featureSlug in additionalFeatures) {
                 var status = additionalFeatures[featureSlug];
@@ -102,7 +102,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
                     if (featureSlug == 'design') {
                         subPrice += 5 + basePrice * 0.2;
                     } else {
-                        var data = costEstimate.config[productGroup]['additional-features'][featureSlug];
+                        var data = this.config[productGroup]['additional-features'][featureSlug];
 
                         if (typeof data.mandays != undefined) {
                             subPrice += data.mandays;
@@ -113,26 +113,26 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
         }
 
         // QUALITY
-        if (costEstimate.getStep() >= 5) {
+        if (this.getStep() >= 5) {
 
-            var quality = costEstimate.getQuality();
-            subPrice *= costEstimate.config[productGroup]['quality'][quality]['multiplier'];
+            var quality = this.getQuality();
+            subPrice *= this.config[productGroup]['quality'][quality]['multiplier'];
         }
 
         console.log(subPrice);
         // Final total price.
-        costEstimate.__subTotalPrice = subPrice * $scope.WORKING_HOURS_PER_DAY * $scope.PRICE_PER_HOUR * $scope.PM_QA_COST;
+        this.__subTotalPrice = subPrice * $scope.WORKING_HOURS_PER_DAY * $scope.PRICE_PER_HOUR * $scope.PM_QA_COST;
     };
 
     /** PROGRESS **/
     costEstimate.__progress = 0;
 
     costEstimate.setProgress = function (progress) {
-        costEstimate.__progress = progress;
+        this.__progress = progress;
     };
 
     costEstimate.getProgress = function () {
-        return costEstimate.__progress;
+        return this.__progress;
     };
 
     /** PRODUCT GROUP **/
@@ -140,38 +140,38 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
 
     costEstimate.setProductGroup = function (productGroup) {
         // Set product group
-        costEstimate.__productGroup = productGroup;
+        this.__productGroup = productGroup;
 
-        costEstimate.setStep();
-        costEstimate.setSubPrice();
+        this.setStep();
+        this.setSubPrice();
     };
 
     costEstimate.getProductGroup = function () {
-        return costEstimate.__productGroup;
+        return this.__productGroup;
     };
 
     /** PRODUCT TYPE **/
     costEstimate.__productTypes = {};
 
     costEstimate.setProductType = function (productType) {
-        if (costEstimate.isProductTypeChoosen(productType)) {
-            delete costEstimate.__productTypes[costEstimate.getProductGroup()][productType];
+        if (this.isProductTypeChoosen(productType)) {
+            delete this.__productTypes[this.getProductGroup()][productType];
         } else {
-            if (!costEstimate.__productTypes.hasOwnProperty([costEstimate.getProductGroup()])) {
-                costEstimate.__productTypes[costEstimate.getProductGroup()] = {};
+            if (!this.__productTypes.hasOwnProperty([this.getProductGroup()])) {
+                this.__productTypes[this.getProductGroup()] = {};
             }
 
-            costEstimate.__productTypes[costEstimate.getProductGroup()][productType] = true;
+            this.__productTypes[this.getProductGroup()][productType] = true;
         }
 
-        costEstimate.setStep();
-        costEstimate.setSubPrice();
+        this.setStep();
+        this.setSubPrice();
     };
 
     costEstimate.isProductTypeChoosen = function (productType) {
-        if (costEstimate.__productTypes.hasOwnProperty([costEstimate.getProductGroup()]) &&
-            costEstimate.__productTypes[costEstimate.getProductGroup()].hasOwnProperty(productType)) {
-            return costEstimate.__productTypes[costEstimate.getProductGroup()][productType];
+        if (this.__productTypes.hasOwnProperty([this.getProductGroup()]) &&
+            this.__productTypes[this.getProductGroup()].hasOwnProperty(productType)) {
+            return this.__productTypes[this.getProductGroup()][productType];
         }
 
         return false;
@@ -182,38 +182,38 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
 
     costEstimate.setProductScale = function (productScale) {
         // Set product scale
-        costEstimate.__productScale = productScale;
+        this.__productScale = productScale;
 
-        costEstimate.setStep();
-        costEstimate.setSubPrice();
+        this.setStep();
+        this.setSubPrice();
     };
 
     costEstimate.getProductScale = function () {
-        return costEstimate.__productScale;
+        return this.__productScale;
     };
 
     /** ADDITIONAL FEATURES **/
     costEstimate.__additionalFeatures = {};
 
     costEstimate.setFeature = function (feature) {
-        if (costEstimate.isFeatureChoosen(feature)) {
-            delete costEstimate.__additionalFeatures[costEstimate.getProductGroup()][feature];
+        if (this.isFeatureChoosen(feature)) {
+            delete this.__additionalFeatures[this.getProductGroup()][feature];
         } else {
-            if (!costEstimate.__additionalFeatures.hasOwnProperty([costEstimate.getProductGroup()])) {
-                costEstimate.__additionalFeatures[costEstimate.getProductGroup()] = {};
+            if (!this.__additionalFeatures.hasOwnProperty([this.getProductGroup()])) {
+                this.__additionalFeatures[this.getProductGroup()] = {};
             }
 
-            costEstimate.__additionalFeatures[costEstimate.getProductGroup()][feature] = true;
+            this.__additionalFeatures[this.getProductGroup()][feature] = true;
         }
 
-        costEstimate.setStep();
-        costEstimate.setSubPrice();
+        this.setStep();
+        this.setSubPrice();
     };
 
     costEstimate.isFeatureChoosen = function (feature) {
-        if (costEstimate.__additionalFeatures.hasOwnProperty([costEstimate.getProductGroup()]) &&
-            costEstimate.__additionalFeatures[costEstimate.getProductGroup()].hasOwnProperty(feature)) {
-            return costEstimate.__additionalFeatures[costEstimate.getProductGroup()][feature];
+        if (this.__additionalFeatures.hasOwnProperty([this.getProductGroup()]) &&
+            this.__additionalFeatures[this.getProductGroup()].hasOwnProperty(feature)) {
+            return this.__additionalFeatures[this.getProductGroup()][feature];
         }
 
         return false;
@@ -223,17 +223,13 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
     costEstimate.__quality = null;
 
     costEstimate.setQuality = function (quality) {
-        costEstimate.__quality = quality;
+        this.__quality = quality;
 
-        costEstimate.setStep();
-        costEstimate.setSubPrice();
+        this.setStep();
+        this.setSubPrice();
     };
 
     costEstimate.getQuality = function () {
-        return costEstimate.__quality;
+        return this.__quality;
     };
 });
-
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
