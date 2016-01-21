@@ -4,15 +4,18 @@ var costEstimateConfig = {
 
         'types': {
             'windows': {
-                'name': 'Windows'
+                'name': 'Windows',
+                'multiplier': 1
             },
 
             'mac': {
-                'name': 'Mac'
+                'name': 'Mac',
+                'multiplier': 1
             },
 
             'linux': {
-                'name': 'Linux'
+                'name': 'Linux',
+                'multiplier': 1
             }
         },
 
@@ -90,39 +93,48 @@ var costEstimateConfig = {
 
         'types': {
             'ios-mobile': {
-                'name': 'iPhone'
+                'name': 'iPhone',
+                'multiplier': 1
             },
 
             'ios-tablet': {
-                'name': 'iPad'
+                'name': 'iPad',
+                'multiplier': 0.5
             },
 
             'ios-watch': {
-                'name': 'iWatch'
+                'name': 'iWatch',
+                'multiplier': 0.5
             },
 
             'android-mobile': {
-                'name': 'Android Mobile'
+                'name': 'Android Mobile',
+                'multiplier': 1
             },
 
             'android-tablet': {
-                'name': 'Android Tablet'
+                'name': 'Android Tablet',
+                'multiplier': 0.5
             },
 
             'android-watch': {
-                'name': 'Android Watch'
+                'name': 'Android Watch',
+                'multiplier': 0.5
             },
 
             'wp-mobile': {
-                'name': 'WindowsPhone Mobile'
+                'name': 'WindowsPhone Mobile',
+                'multiplier': 1
             },
 
             'wp-tablet': {
-                'name': 'WindowsPhone Tablet'
+                'name': 'WindowsPhone Tablet',
+                'multiplier': 0.5
             },
 
             'wp-watch': {
-                'name': 'WindowsPhone Watch'
+                'name': 'WindowsPhone Watch',
+                'multiplier': 0.5
             }
         },
 
@@ -199,15 +211,13 @@ var costEstimateConfig = {
         'name': 'Static Website',
         'types': {
             'pc': {
-                'name': 'PC Site'
+                'name': 'PC Site',
+                'multiplier': 1
             },
 
             'mobile': {
-                'name': 'Mobile Site'
-            },
-
-            'responsive': {
-                'name': 'Responsive Site Support Both'
+                'name': 'Mobile Site',
+                'multiplier': 1
             }
         },
 
@@ -232,6 +242,10 @@ var costEstimateConfig = {
         },
 
         'additional-features': {
+            'responsive': {
+                'name': 'Responsive Site Support'
+            },
+
             'design': {
                 'name': 'Design'
             },
@@ -267,15 +281,13 @@ var costEstimateConfig = {
 
         'types': {
             'pc': {
-                'name': 'PC Site'
+                'name': 'PC Site',
+                'multiplier': 1
             },
 
             'mobile': {
-                'name': 'Mobile Site'
-            },
-
-            'responsive': {
-                'name': 'Responsive Site Support Both'
+                'name': 'Mobile Site',
+                'multiplier': 1
             }
         },
 
@@ -300,6 +312,10 @@ var costEstimateConfig = {
         },
 
         'additional-features': {
+            'responsive': {
+                'name': 'Responsive Site Support'
+            },
+
             'design': {
                 'name': 'Design'
             },

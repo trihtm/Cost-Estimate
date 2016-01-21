@@ -77,8 +77,17 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
                 var status = productTypes[productTypeSlug];
 
                 if (status) {
+                    var multiple = costEstimate.config[productGroup]['types'][productTypeSlug]['multiplier'];
 
+                    subPrice += basePrice * multiple;
                 }
+            }
+
+            // Discount when make both pc & mobile version.
+            if (typeof productTypes['pc'] != typeof undefined &&
+                typeof productTypes['mobile'] != typeof undefined &&
+                productTypes['pc'] && productTypes['mobile']) {
+                subPrice = basePrice * 1.5;
             }
         }
 
@@ -87,8 +96,6 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
 
         }
 
-        subPrice = basePrice;
-
         // QUALITY
         if (costEstimate.getStep() >= 5) {
 
@@ -96,6 +103,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
             subPrice *= costEstimate.config[productGroup]['quality'][quality]['multiplier'];
         }
 
+        console.log(subPrice);
         // Final total price.
         costEstimate.__subTotalPrice = subPrice * $scope.WORKING_HOURS_PER_DAY * $scope.PRICE_PER_HOUR * $scope.PM_QA_COST;
     };
