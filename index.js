@@ -93,7 +93,23 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
 
         // ADDITIONAL FEATURES
         if (costEstimate.getStep() >= 4) {
+            var additionalFeatures = costEstimate.__additionalFeatures[productGroup];
 
+            for (var featureSlug in additionalFeatures) {
+                var status = additionalFeatures[featureSlug];
+
+                if (status) {
+                    if (featureSlug == 'design') {
+                        subPrice += 5 + basePrice * 0.2;
+                    } else {
+                        var data = costEstimate.config[productGroup]['additional-features'][featureSlug];
+
+                        if (typeof data.mandays != undefined) {
+                            subPrice += data.mandays;
+                        }
+                    }
+                }
+            }
         }
 
         // QUALITY
