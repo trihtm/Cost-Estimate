@@ -31,19 +31,23 @@
 
                     <dl class="dl-horizontal">
                         <dt>Subtotal</dt>
-                        <dd>${{ costEstimate.getSubPrice() }}</dd>
+                        <dd>${{ costEstimate.numberFormat(costEstimate.getSubPrice()) }}</dd>
 
                         <dt>VAT({{ TAX }}%)</dt>
-                        <dd>${{ costEstimate.getVAT() }}</dd>
+                        <dd>${{ costEstimate.numberFormat(costEstimate.getVAT()) }}</dd>
 
                         <dt>Total</dt>
-                        <dd>${{ costEstimate.getTotalPrice() }}</dd>
+                        <dd>${{ costEstimate.numberFormat(costEstimate.getTotalPrice()) }}</dd>
                     </dl>
 
                     <hr />
 
                     <div class="control text-right">
-                        <button type="button" class="btn btn-reserve" ng-class="{'btn-primary': costEstimate.getStep() == 5}">Buy now</button>
+                        <button type="button" class="btn btn-reserve"
+                                ng-class="{'btn-primary': costEstimate.getStep() == 5}"
+                                ng-click="costEstimate.submit()">
+                            Buy now
+                        </button>
                     </div>
                 </div>
 
