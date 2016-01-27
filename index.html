@@ -30,14 +30,17 @@
                     <hr />
 
                     <dl class="dl-horizontal">
-                        <dt>Subtotal</dt>
-                        <dd>${{ costEstimate.numberFormat(costEstimate.getSubPrice()) }}</dd>
+                        <dt>Development Cost</dt>
+                        <dd>${{ costEstimate.numberFormat(costEstimate.getDevelopmentCost()) }}</dd>
+
+                        <dt>QA Cost</dt>
+                        <dd>${{ costEstimate.numberFormat(costEstimate.getQACost()) }}</dd>
 
                         <dt>VAT({{ TAX }}%)</dt>
                         <dd>${{ costEstimate.numberFormat(costEstimate.getVAT()) }}</dd>
 
                         <dt>Total</dt>
-                        <dd>${{ costEstimate.numberFormat(costEstimate.getTotalPrice()) }}</dd>
+                        <dd>${{ costEstimate.numberFormat(costEstimate.getTotalCost()) }}</dd>
                     </dl>
 
                     <hr />

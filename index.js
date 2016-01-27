@@ -6,7 +6,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
     // CONSTANTS
     $scope.WORKING_HOURS_PER_DAY = 8; // hours
     $scope.PRICE_PER_HOUR = 25; // dollars
-    $scope.TAX = 10; // Percent
+    $scope.TAX = 0; // Percent
     $scope.PM_QA_COST = 1.3;
 
     costEstimate.config = costEstimateConfig;
@@ -43,21 +43,25 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
     };
 
     /** PRICE **/
-    costEstimate.__subTotalPrice = 0;
+    costEstimate.developmentCost = 0;
 
-    costEstimate.getSubPrice = function () {
-        return this.__subTotalPrice;
+    costEstimate.getDevelopmentCost = function () {
+        return this.developmentCost;
+    };
+
+    costEstimate.getQACost = function () {
+        return this.getDevelopmentCost() * ($scope.PM_QA_COST - 1);
     };
 
     costEstimate.getVAT = function () {
-        return this.getSubPrice() * $scope.TAX / 100;
+        return this.getDevelopmentCost() * $scope.TAX / 100;
     };
 
-    costEstimate.getTotalPrice = function () {
-        return this.getSubPrice() + this.getVAT();
+    costEstimate.getTotalCost = function () {
+        return this.getDevelopmentCost() + this.getQACost() + this.getVAT();
     };
 
-    costEstimate.setSubPrice = function () {
+    costEstimate.setDevelopmentCost = function () {
         var basePrice = 0.00;
         var subPrice = 0.00;
 
@@ -160,7 +164,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
 
         console.log(subPrice);
         // Final total price.
-        this.__subTotalPrice = subPrice * $scope.WORKING_HOURS_PER_DAY * $scope.PRICE_PER_HOUR * $scope.PM_QA_COST;
+        this.developmentCost = subPrice * $scope.WORKING_HOURS_PER_DAY * $scope.PRICE_PER_HOUR;
     };
 
     /** PROGRESS **/
@@ -182,7 +186,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
         this.__productGroup = productGroup;
 
         this.setStep();
-        this.setSubPrice();
+        this.setDevelopmentCost();
     };
 
     costEstimate.getProductGroup = function () {
@@ -204,7 +208,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
         }
 
         this.setStep();
-        this.setSubPrice();
+        this.setDevelopmentCost();
     };
 
     costEstimate.isProductTypeChoosen = function (productType) {
@@ -224,7 +228,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
         this.__productScale = productScale;
 
         this.setStep();
-        this.setSubPrice();
+        this.setDevelopmentCost();
     };
 
     costEstimate.getProductScale = function () {
@@ -246,7 +250,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
         }
 
         this.setStep();
-        this.setSubPrice();
+        this.setDevelopmentCost();
     };
 
     costEstimate.isFeatureChoosen = function (feature) {
@@ -262,7 +266,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
 
     costEstimate.otherServiceFeatureChange = function () {
         this.setStep();
-        this.setSubPrice();
+        this.setDevelopmentCost();
     };
 
     /** SET quality **/
@@ -272,7 +276,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
         this.__quality = quality;
 
         this.setStep();
-        this.setSubPrice();
+        this.setDevelopmentCost();
     };
 
     costEstimate.getQuality = function () {
