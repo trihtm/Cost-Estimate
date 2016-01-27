@@ -6,7 +6,7 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
     // CONSTANTS
     $scope.WORKING_HOURS_PER_DAY = 8; // hours
     $scope.PRICE_PER_HOUR = 25; // dollars
-    $scope.TAX = 10; // Percent
+    $scope.TAX = 0; // Percent
     $scope.PM_QA_COST = 1.3;
 
     costEstimate.config = costEstimateConfig;
