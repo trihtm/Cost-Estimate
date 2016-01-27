@@ -1,6 +1,33 @@
 var costEstimateApp = angular.module('costEstimateApp', []);
 
-costEstimateApp.controller('costEstimateController', function ($scope) {
+costEstimateApp.factory('NumberHelper', function() {
+    var NumberHelper = {};
+
+    NumberHelper.format = function (number, decimals, dec_point, thousands_sep) {
+        var n = !isFinite(+number) ? 0 : +number,
+            prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+            sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+            dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+            toFixedFix = function (n, prec) {
+                // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+                var k = Math.pow(10, prec);
+                return Math.round(n * k) / k;
+            },
+            s = (prec ? toFixedFix(n, prec) : Math.round(n)).toString().split('.');
+        if (s[0].length > 3) {
+            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        }
+        if ((s[1] || '').length < prec) {
+            s[1] = s[1] || '';
+            s[1] += new Array(prec - s[1].length + 1).join('0');
+        }
+        return s.join(dec);
+    };
+
+    return NumberHelper;
+});
+
+costEstimateApp.controller('costEstimateController', ['$scope', 'NumberHelper', function ($scope, NumberHelper) {
     var costEstimate = this;
 
     // CONSTANTS
@@ -8,6 +35,9 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
     $scope.PRICE_PER_HOUR = 25; // dollars
     $scope.TAX = 0; // Percent
     $scope.PM_QA_COST = 1.3;
+
+    // Setup Helper
+    $scope.NumberHelper = NumberHelper;
 
     costEstimate.config = costEstimateConfig;
 
@@ -291,26 +321,4 @@ costEstimateApp.controller('costEstimateController', function ($scope) {
             alert('Please choose information.');
         }
     };
-
-    /*** HELPER ***/
-    costEstimate.numberFormat = function (number, decimals, dec_point, thousands_sep) {
-        var n = !isFinite(+number) ? 0 : +number,
-            prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-            sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-            dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-            toFixedFix = function (n, prec) {
-                // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-                var k = Math.pow(10, prec);
-                return Math.round(n * k) / k;
-            },
-            s = (prec ? toFixedFix(n, prec) : Math.round(n)).toString().split('.');
-        if (s[0].length > 3) {
-            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-        }
-        if ((s[1] || '').length < prec) {
-            s[1] = s[1] || '';
-            s[1] += new Array(prec - s[1].length + 1).join('0');
-        }
-        return s.join(dec);
-    }
-});
+}]);

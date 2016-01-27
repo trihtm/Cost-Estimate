@@ -31,16 +31,16 @@
 
                     <dl class="dl-horizontal">
                         <dt>Development Cost</dt>
-                        <dd>${{ costEstimate.numberFormat(costEstimate.getDevelopmentCost()) }}</dd>
+                        <dd>${{ NumberHelper.format(costEstimate.getDevelopmentCost()) }}</dd>
 
                         <dt>QA Cost</dt>
-                        <dd>${{ costEstimate.numberFormat(costEstimate.getQACost()) }}</dd>
+                        <dd>${{ NumberHelper.format(costEstimate.getQACost()) }}</dd>
 
                         <dt>VAT({{ TAX }}%)</dt>
-                        <dd>${{ costEstimate.numberFormat(costEstimate.getVAT()) }}</dd>
+                        <dd>${{ NumberHelper.format(costEstimate.getVAT()) }}</dd>
 
                         <dt>Total</dt>
-                        <dd>${{ costEstimate.numberFormat(costEstimate.getTotalCost()) }}</dd>
+                        <dd>${{ NumberHelper.format(costEstimate.getTotalCost()) }}</dd>
                     </dl>
 
                     <hr />
