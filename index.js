@@ -27,93 +27,84 @@ costEstimateApp.factory('NumberHelper', function() {
     return NumberHelper;
 });
 
-costEstimateApp.controller('costEstimateController', ['$scope', 'NumberHelper', function ($scope, NumberHelper) {
-    var costEstimate = this;
+costEstimateApp.factory('CONSTANT', function () {
+    return {
+        WORKING_HOURS_PER_DAY: 8, // hours
+        PRICE_PER_HOUR: 25, // dollars
+        TAX: 0, // Percent
+        PM_QA_COST: 0.3 // Percent
+    };
+});
 
-    // CONSTANTS
-    $scope.WORKING_HOURS_PER_DAY = 8; // hours
-    $scope.PRICE_PER_HOUR = 25; // dollars
-    $scope.TAX = 0; // Percent
-    $scope.PM_QA_COST = 1.3;
+costEstimateApp.factory('Accountant', [
+    'CONSTANT',
+    'FilledForm',
+    function (
+        CONSTANT,
+        FilledForm
+    ) {
 
-    // Setup Helper
-    $scope.NumberHelper = NumberHelper;
+    var Accountant = {};
 
-    costEstimate.config = costEstimateConfig;
-
-    /** STEP **/
-    costEstimate.__step = 1;
-
-    costEstimate.setStep = function () {
+    /** STEP && PROGRESS **/
+    Accountant.getStep = function () {
+        var productGroup = FilledForm.getProductGroup();
+        var productTypes = FilledForm.getProductTypes();
+        var productScale = FilledForm.getProductScale();
+        var quality = FilledForm.getQuality();
         var step = 1;
 
-        if (this.getProductGroup() != null) {
-            step = 2;
-
-            if (this.__productTypes.hasOwnProperty([this.getProductGroup()]) &&
-                Object.keys(this.__productTypes[this.getProductGroup()]).length > 0) {
-                step = 3;
-
-                if (this.getProductScale() != null) {
-                    step = 4;
-
-                    if (this.getQuality() != null) {
-                        step = 5;
-                    }
-                }
-            }
+        if (productGroup != null) {
+            step++;
         }
 
-        this.__step = step;
-        this.setProgress(step / 5 * 100);
+        if (step == 2 &&
+            productTypes.hasOwnProperty([productGroup]) &&
+            Object.keys(FilledForm.getProductTypes()[productGroup]).length > 0) {
+            step++;
+        }
+
+        if (step == 3 && productScale != null) {
+            step++;
+        }
+
+        if (step == 4 && quality != null) {
+            step++;
+        }
+
+        return step;
     };
 
-    costEstimate.getStep = function () {
-        return this.__step;
+    Accountant.getProgress = function () {
+        return this.getStep() / 5 * 100;
     };
 
-    /** PRICE **/
-    costEstimate.developmentCost = 0;
-
-    costEstimate.getDevelopmentCost = function () {
-        return this.developmentCost;
-    };
-
-    costEstimate.getQACost = function () {
-        return this.getDevelopmentCost() * ($scope.PM_QA_COST - 1);
-    };
-
-    costEstimate.getVAT = function () {
-        return this.getDevelopmentCost() * $scope.TAX / 100;
-    };
-
-    costEstimate.getTotalCost = function () {
-        return this.getDevelopmentCost() + this.getQACost() + this.getVAT();
-    };
-
-    costEstimate.setDevelopmentCost = function () {
+    /**************** CALCULATE MANDAYS && COSTS *********************/
+    Accountant.getMandays = function () {
         var basePrice = 0.00;
         var subPrice = 0.00;
 
-        var productGroup = this.getProductGroup();
-        var productScale = this.getProductScale();
+        var productGroup = FilledForm.getProductGroup();
+        var productScale = FilledForm.getProductScale();
+        var step = this.getStep();
+        var config = costEstimateConfig;
 
         // PRODUCT GROUP & SCALE
-        if (this.getStep() >= 4) {
-            basePrice = this.config[productGroup]['scales'][productScale]['mandays'];
+        if (step >= 4) {
+            basePrice = config[productGroup]['scales'][productScale]['mandays'];
         }
 
         var supportBoth = false;
 
         // PRODUCT TYPES
-        if (this.getStep() >= 4) {
-            var productTypes = this.__productTypes[productGroup];
+        if (step >= 4) {
+            var productTypes = FilledForm.getProductTypes()[productGroup];
 
             for (var productTypeSlug in productTypes) {
                 var status = productTypes[productTypeSlug];
 
                 if (status) {
-                    var multiple = this.config[productGroup]['types'][productTypeSlug]['multiplier'];
+                    var multiple = config[productGroup]['types'][productTypeSlug]['multiplier'];
 
                     subPrice += basePrice * multiple;
                 }
@@ -129,9 +120,9 @@ costEstimateApp.controller('costEstimateController', ['$scope', 'NumberHelper', 
         }
 
         // ADDITIONAL FEATURES
-        if (this.getStep() >= 4) {
+        if (step >= 4) {
             var data;
-            var additionalFeatures = this.__additionalFeatures[productGroup];
+            var additionalFeatures = FilledForm.getAdditionalFeatures()[productGroup];
 
             for (var featureSlug in additionalFeatures) {
                 var status = additionalFeatures[featureSlug];
@@ -144,7 +135,7 @@ costEstimateApp.controller('costEstimateController', ['$scope', 'NumberHelper', 
                             subPrice += basePrice * 0.5;
                         }
                     } else {
-                        data = this.config[productGroup]['additional-features'][featureSlug];
+                        data = config[productGroup]['additional-features'][featureSlug];
 
                         if (typeof data.mandays != undefined) {
                             subPrice += data.mandays;
@@ -154,12 +145,12 @@ costEstimateApp.controller('costEstimateController', ['$scope', 'NumberHelper', 
             }
 
             // SNS
-            if (typeof this.__extraFeatures[this.getProductGroup()] != typeof undefined &&
-                typeof this.__extraFeatures[this.getProductGroup()]['sns-login'] != typeof undefined
+            if (typeof FilledForm.getExtraFeatures()[productGroup] != typeof undefined &&
+                typeof FilledForm.getExtraFeatures()[productGroup]['sns-login'] != typeof undefined
             ) {
-                data = this.config[productGroup]['additional-features']['sns-login'];
+                data = config[productGroup]['additional-features']['sns-login'];
 
-                var checkboxes = this.__extraFeatures[this.getProductGroup()]['sns-login'];
+                var checkboxes = FilledForm.getExtraFeatures()[productGroup]['sns-login'];
                 var total = 0;
 
                 for (var snsSlug in checkboxes) {
@@ -174,148 +165,180 @@ costEstimateApp.controller('costEstimateController', ['$scope', 'NumberHelper', 
             }
 
             // Other service integration
-            if (typeof this.__extraFeatures[this.getProductGroup()] != typeof undefined &&
-                typeof this.__extraFeatures[this.getProductGroup()]['other-service-integration'] != typeof undefined
+            if (typeof FilledForm.getExtraFeatures()[productGroup] != typeof undefined &&
+                typeof FilledForm.getExtraFeatures()[productGroup]['other-service-integration'] != typeof undefined
             ) {
-                data = this.config[productGroup]['additional-features']['other-service-integration'];
+                data = config[productGroup]['additional-features']['other-service-integration'];
 
-                var quantityOtherSerivce = this.__extraFeatures[this.getProductGroup()]['other-service-integration'];
+                var quantityOtherSerivce = FilledForm.getExtraFeatures()[productGroup]['other-service-integration'];
 
                 subPrice += quantityOtherSerivce * data['each'];
             }
         }
 
         // QUALITY
-        if (this.getStep() >= 5) {
+        if (step >= 5) {
+            var quality = FilledForm.getQuality();
 
-            var quality = this.getQuality();
-            subPrice *= this.config[productGroup]['quality'][quality]['multiplier'];
+            subPrice *= config[productGroup]['quality'][quality]['multiplier'];
         }
 
-        console.log(subPrice);
         // Final total price.
-        this.developmentCost = subPrice * $scope.WORKING_HOURS_PER_DAY * $scope.PRICE_PER_HOUR;
+        return subPrice;
     };
 
-    /** PROGRESS **/
-    costEstimate.__progress = 0;
-
-    costEstimate.setProgress = function (progress) {
-        this.__progress = progress;
+    Accountant.getDevelopmentCost = function () {
+        return this.getMandays() * CONSTANT.WORKING_HOURS_PER_DAY * CONSTANT.PRICE_PER_HOUR;
     };
 
-    costEstimate.getProgress = function () {
-        return this.__progress;
+    Accountant.getQACost = function () {
+        return this.getDevelopmentCost() * CONSTANT.PM_QA_COST;
     };
+
+    Accountant.getVAT = function () {
+        return this.getDevelopmentCost() * CONSTANT.TAX / 100;
+    };
+
+    Accountant.getTotalCost = function () {
+        return this.getDevelopmentCost() + this.getQACost() + this.getVAT();
+    };
+
+    return Accountant;
+}]);
+
+costEstimateApp.factory('FilledForm', function () {
+    var FilledForm = {};
 
     /** PRODUCT GROUP **/
-    costEstimate.__productGroup = null;
+    FilledForm.__productGroup = null;
 
-    costEstimate.setProductGroup = function (productGroup) {
+    FilledForm.setProductGroup = function (productGroup) {
         // Set product group
         this.__productGroup = productGroup;
-
-        this.setStep();
-        this.setDevelopmentCost();
     };
 
-    costEstimate.getProductGroup = function () {
+    FilledForm.getProductGroup = function () {
         return this.__productGroup;
     };
 
     /** PRODUCT TYPE **/
-    costEstimate.__productTypes = {};
+    FilledForm.__productTypes = {};
 
-    costEstimate.setProductType = function (productType) {
+    FilledForm.setProductType = function (productType) {
         if (this.isProductTypeChoosen(productType)) {
-            delete this.__productTypes[this.getProductGroup()][productType];
+            delete this.getProductTypes()[this.getProductGroup()][productType];
         } else {
-            if (!this.__productTypes.hasOwnProperty([this.getProductGroup()])) {
-                this.__productTypes[this.getProductGroup()] = {};
+            if (!this.getProductTypes().hasOwnProperty([this.getProductGroup()])) {
+                this.getProductTypes()[this.getProductGroup()] = {};
             }
 
-            this.__productTypes[this.getProductGroup()][productType] = true;
+            this.getProductTypes()[this.getProductGroup()][productType] = true;
         }
-
-        this.setStep();
-        this.setDevelopmentCost();
     };
 
-    costEstimate.isProductTypeChoosen = function (productType) {
-        if (this.__productTypes.hasOwnProperty([this.getProductGroup()]) &&
-            this.__productTypes[this.getProductGroup()].hasOwnProperty(productType)) {
-            return this.__productTypes[this.getProductGroup()][productType];
+    FilledForm.getProductTypes = function () {
+        return this.__productTypes;
+    };
+
+    FilledForm.isProductTypeChoosen = function (productType) {
+        if (this.getProductTypes().hasOwnProperty([this.getProductGroup()]) &&
+            this.getProductTypes()[this.getProductGroup()].hasOwnProperty(productType)) {
+            return this.getProductTypes()[this.getProductGroup()][productType];
         }
 
         return false;
     };
 
     /** PRODUCT SCALE **/
-    costEstimate.__productScale = null;
+    FilledForm.__productScale = null;
 
-    costEstimate.setProductScale = function (productScale) {
+    FilledForm.setProductScale = function (productScale) {
         // Set product scale
         this.__productScale = productScale;
-
-        this.setStep();
-        this.setDevelopmentCost();
     };
 
-    costEstimate.getProductScale = function () {
+    FilledForm.getProductScale = function () {
         return this.__productScale;
     };
 
     /** ADDITIONAL FEATURES **/
-    costEstimate.__additionalFeatures = {};
+    FilledForm.__additionalFeatures = {};
 
-    costEstimate.setFeature = function (feature) {
-        if (this.isFeatureChoosen(feature)) {
-            delete this.__additionalFeatures[this.getProductGroup()][feature];
-        } else {
-            if (!this.__additionalFeatures.hasOwnProperty([this.getProductGroup()])) {
-                this.__additionalFeatures[this.getProductGroup()] = {};
-            }
-
-            this.__additionalFeatures[this.getProductGroup()][feature] = true;
-        }
-
-        this.setStep();
-        this.setDevelopmentCost();
+    FilledForm.getAdditionalFeatures = function () {
+        return this.__additionalFeatures;
     };
 
-    costEstimate.isFeatureChoosen = function (feature) {
-        if (this.__additionalFeatures.hasOwnProperty([this.getProductGroup()]) &&
-            this.__additionalFeatures[this.getProductGroup()].hasOwnProperty(feature)) {
-            return this.__additionalFeatures[this.getProductGroup()][feature];
+    FilledForm.setFeature = function (feature) {
+        if (this.isFeatureChoosen(feature)) {
+            delete this.getAdditionalFeatures()[this.getProductGroup()][feature];
+        } else {
+            if (!this.getAdditionalFeatures().hasOwnProperty([this.getProductGroup()])) {
+                this.getAdditionalFeatures()[this.getProductGroup()] = {};
+            }
+
+            this.getAdditionalFeatures()[this.getProductGroup()][feature] = true;
+        }
+    };
+
+    FilledForm.isFeatureChoosen = function (feature) {
+        if (this.getAdditionalFeatures().hasOwnProperty([this.getProductGroup()]) &&
+            this.getAdditionalFeatures()[this.getProductGroup()].hasOwnProperty(feature)) {
+            return this.getAdditionalFeatures()[this.getProductGroup()][feature];
         }
 
         return false;
     };
 
-    costEstimate.__extraFeatures = {};
+    FilledForm.__extraFeatures = {};
 
-    costEstimate.otherServiceFeatureChange = function () {
-        this.setStep();
-        this.setDevelopmentCost();
+    FilledForm.getExtraFeatures = function () {
+        return this.__extraFeatures;
+    };
+
+    FilledForm.otherServiceFeatureChange = function () {
+        // Nothing
     };
 
     /** SET quality **/
-    costEstimate.__quality = null;
+    FilledForm.__quality = null;
 
-    costEstimate.setQuality = function (quality) {
+    FilledForm.setQuality = function (quality) {
         this.__quality = quality;
-
-        this.setStep();
-        this.setDevelopmentCost();
     };
 
-    costEstimate.getQuality = function () {
+    FilledForm.getQuality = function () {
         return this.__quality;
     };
 
+    return FilledForm;
+});
+
+costEstimateApp.controller('costEstimateController', [
+    '$scope',
+    'NumberHelper',
+    'Accountant',
+    'FilledForm',
+    'CONSTANT',
+    function (
+        $scope,
+        NumberHelper,
+        Accountant,
+        FilledForm,
+        CONSTANT
+    ) {
+
+    var costEstimateController = this;
+
+    // Setup Helper
+    $scope.CONFIG = costEstimateConfig;
+    $scope.NumberHelper = NumberHelper;
+    $scope.CONSTANT = CONSTANT;
+    $scope.FilledForm = FilledForm;
+    $scope.Accountant = Accountant;
+
     /******************* SUBMIT *****************/
-    costEstimate.submit = function () {
-        if (this.getStep() >= 5) {
+    costEstimateController.submit = function () {
+        if (Accountant.getStep() >= 5) {
             alert('Submit success.');
         } else {
             alert('Please choose information.');
