@@ -31,23 +31,23 @@
 
                     <dl class="dl-horizontal">
                         <dt>Development Cost</dt>
-                        <dd>${{ costEstimate.numberFormat(costEstimate.getDevelopmentCost()) }}</dd>
+                        <dd>${{ NumberHelper.format(Accountant.getDevelopmentCost()) }}</dd>
 
                         <dt>QA Cost</dt>
-                        <dd>${{ costEstimate.numberFormat(costEstimate.getQACost()) }}</dd>
+                        <dd>${{ NumberHelper.format(Accountant.getQACost()) }}</dd>
 
                         <dt>VAT({{ TAX }}%)</dt>
-                        <dd>${{ costEstimate.numberFormat(costEstimate.getVAT()) }}</dd>
+                        <dd>${{ NumberHelper.format(Accountant.getVAT()) }}</dd>
 
                         <dt>Total</dt>
-                        <dd>${{ costEstimate.numberFormat(costEstimate.getTotalCost()) }}</dd>
+                        <dd>${{ NumberHelper.format(Accountant.getTotalCost()) }}</dd>
                     </dl>
 
                     <hr />
 
                     <div class="control text-right">
                         <button type="button" class="btn btn-reserve"
-                                ng-class="{'btn-primary': costEstimate.getStep() == 5}"
+                                ng-class="{'btn-primary': Accountant.getStep() == 5}"
                                 ng-click="costEstimate.submit()">
                             Buy now
                         </button>
@@ -57,8 +57,8 @@
                 <div class="col-lg-8">
                     <div class="progress">
                         <div class="progress-bar" role="progressbar"
-                             aria-valuenow="{{ costEstimate.getProgress() }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ costEstimate.getProgress() }}%;">
-                            <span class="sr-only">{{ costEstimate.getProgress() }}% Complete</span>
+                             aria-valuenow="{{ Accountant.getProgress() }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ Accountant.getProgress() }}%;">
+                            <span class="sr-only">{{ Accountant.getProgress() }}% Complete</span>
                         </div>
                     </div>
 
@@ -67,25 +67,25 @@
                     <hr />
 
                     <div class="row">
-                        <div class="col-lg-3 text-center" ng-repeat="(key, productGroup) in costEstimate.config">
-                            <button type="button" class="btn btn-default" ng-click="costEstimate.setProductGroup(key)" ng-class="{'btn-primary': costEstimate.getProductGroup() == key}">
+                        <div class="col-lg-3 text-center" ng-repeat="(key, productGroup) in CONFIG">
+                            <button type="button" class="btn btn-default" ng-click="FilledForm.setProductGroup(key)" ng-class="{'btn-primary': FilledForm.getProductGroup() == key}">
                                 {{ productGroup.name }}
                             </button>
                         </div>
                     </div>
 
-                    <div ng-if="costEstimate.getStep() >= 2">
+                    <div ng-if="Accountant.getStep() >= 2">
                         <h3>Step 2. Choose a product type</h3>
 
                         <hr />
 
-                        <div ng-repeat="(productGroupSlug, productGroup) in costEstimate.config">
-                            <div class="row" ng-if="costEstimate.getProductGroup() == productGroupSlug">
+                        <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
+                            <div class="row" ng-if="FilledForm.getProductGroup() == productGroupSlug">
                                 <div class="col-lg-4 text-center"
-                                     ng-repeat="(productTypeSlug, productType) in costEstimate.config[productGroupSlug]['types']">
+                                     ng-repeat="(productTypeSlug, productType) in CONFIG[productGroupSlug]['types']">
                                     <button type="button" class="btn btn-default"
-                                            ng-click="costEstimate.setProductType(productTypeSlug)"
-                                            ng-class="{'btn-primary': costEstimate.isProductTypeChoosen(productTypeSlug)}">
+                                            ng-click="FilledForm.setProductType(productTypeSlug)"
+                                            ng-class="{'btn-primary': FilledForm.isProductTypeChoosen(productTypeSlug)}">
                                         {{ productType.name }}
                                     </button>
                                 </div>
@@ -93,18 +93,18 @@
                         </div>
                     </div>
 
-                    <div ng-if="costEstimate.getStep() >= 3">
+                    <div ng-if="Accountant.getStep() >= 3">
                         <h3>Step 3. Choose a product scale</h3>
 
                         <hr />
 
-                        <div ng-repeat="(productGroupSlug, productGroup) in costEstimate.config">
-                            <div class="row" ng-if="costEstimate.getProductGroup() == productGroupSlug">
+                        <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
+                            <div class="row" ng-if="FilledForm.getProductGroup() == productGroupSlug">
                                 <div class="col-lg-3 text-center"
-                                     ng-repeat="(productScaleSlug, productScale) in costEstimate.config[productGroupSlug]['scales']">
+                                     ng-repeat="(productScaleSlug, productScale) in CONFIG[productGroupSlug]['scales']">
                                     <button type="button" class="btn btn-default"
-                                            ng-click="costEstimate.setProductScale(productScaleSlug)"
-                                            ng-class="{'btn-primary': costEstimate.getProductScale() == productScaleSlug}">
+                                            ng-click="FilledForm.setProductScale(productScaleSlug)"
+                                            ng-class="{'btn-primary': FilledForm.getProductScale() == productScaleSlug}">
                                         {{ productScale.name }} ({{ productScale.pages }} pages)
                                     </button>
                                 </div>
@@ -112,13 +112,13 @@
                         </div>
                     </div>
 
-                    <div ng-if="costEstimate.getStep() >= 4">
+                    <div ng-if="Accountant.getStep() >= 4">
                         <h3>Step 4. Choose additional features</h3>
 
                         <hr />
 
-                        <div ng-repeat="(productGroupSlug, productGroup) in costEstimate.config">
-                            <div ng-if="costEstimate.getProductGroup() == productGroupSlug">
+                        <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
+                            <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
                                 <table class="table table-bordered">
                                     <tr>
                                         <th width="60%">Feature name</th>
@@ -126,7 +126,7 @@
                                         <th width="40%">Action</th>
                                     </tr>
 
-                                    <tr ng-repeat="(featureSlug, feature) in costEstimate.config[productGroupSlug]['additional-features']">
+                                    <tr ng-repeat="(featureSlug, feature) in CONFIG[productGroupSlug]['additional-features']">
                                         <td>
                                             {{ feature.name }}
                                         </td>
@@ -136,7 +136,7 @@
                                                 <div class="checkbox" ng-repeat="(snsSlug, sns) in feature.lists">
                                                     <label>
                                                         <input type="checkbox" name="sns[]" value="{{ snsSlug }}"
-                                                            ng-model="costEstimate.__extraFeatures[productGroupSlug][featureSlug][snsSlug]" ng-change="costEstimate.otherServiceFeatureChange()"
+                                                            ng-model="FilledForm.__extraFeatures[productGroupSlug][featureSlug][snsSlug]" ng-change="FilledForm.otherServiceFeatureChange()"
                                                         />
 
                                                         {{ sns.name }}
@@ -148,8 +148,8 @@
                                                 <div class="form-group">
                                                     <div class="input-group">
                                                         <input type="number" class="form-control" value="0" min="0" max="99" required="required"
-                                                            ng-init="costEstimate.__extraFeatures[productGroupSlug][featureSlug] = 0"
-                                                            ng-model="costEstimate.__extraFeatures[productGroupSlug][featureSlug]" ng-change="costEstimate.otherServiceFeatureChange()" />
+                                                            ng-init="FilledForm.__extraFeatures[productGroupSlug][featureSlug] = 0"
+                                                            ng-model="FilledForm.__extraFeatures[productGroupSlug][featureSlug]" ng-change="FilledForm.otherServiceFeatureChange()" />
 
                                                         <div class="input-group-addon">services</div>
                                                     </div>
@@ -158,8 +158,8 @@
 
                                             <div ng-if="!feature.extraForm">
                                                 <button type="button" class="btn btn-default"
-                                                        ng-click="costEstimate.setFeature(featureSlug)"
-                                                        ng-class="{'btn-primary': costEstimate.isFeatureChoosen(featureSlug)}">
+                                                        ng-click="FilledForm.setFeature(featureSlug)"
+                                                        ng-class="{'btn-primary': FilledForm.isFeatureChoosen(featureSlug)}">
                                                     Apply
                                                 </button>
                                             </div>
@@ -170,18 +170,18 @@
                         </div>
                     </div>
 
-                    <div ng-if="costEstimate.getStep() >= 4">
+                    <div ng-if="Accountant.getStep() >= 4">
                         <h3>Last step. Choose quality multiplier</h3>
 
                         <hr />
 
-                        <div ng-repeat="(productGroupSlug, productGroup) in costEstimate.config">
-                            <div class="row" ng-if="costEstimate.getProductGroup() == productGroupSlug">
+                        <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
+                            <div class="row" ng-if="FilledForm.getProductGroup() == productGroupSlug">
                                 <div class="col-lg-4 text-center"
-                                     ng-repeat="(qualitySlug, quality) in costEstimate.config[productGroupSlug]['quality']">
+                                     ng-repeat="(qualitySlug, quality) in CONFIG[productGroupSlug]['quality']">
                                     <button type="button" class="btn btn-default"
-                                            ng-click="costEstimate.setQuality(qualitySlug)"
-                                            ng-class="{'btn-primary': costEstimate.getQuality() == qualitySlug}">
+                                            ng-click="FilledForm.setQuality(qualitySlug)"
+                                            ng-class="{'btn-primary': FilledForm.getQuality() == qualitySlug}">
                                         {{ quality.name }}
                                     </button>
                                 </div>
