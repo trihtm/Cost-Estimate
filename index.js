@@ -153,7 +153,7 @@ app.factory('DesktopAppCalculator',  ['BaseCalculator', 'FilledForm', function (
     return DesktopAppCalculator;
 }]);
 
-app.factory('WebAppCalculator',  ['DesktopAppCalculator', 'FilledForm', function (DesktopAppCalculatorgi, FilledForm) {
+app.factory('WebAppCalculator',  ['DesktopAppCalculator', 'FilledForm', function (DesktopAppCalculator, FilledForm) {
     var __supportBoth = false;
 
     var WebAppCalculator = function () {
