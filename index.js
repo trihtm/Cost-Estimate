@@ -1,6 +1,6 @@
-var costEstimateApp = angular.module('costEstimateApp', []);
+var app = angular.module('costEstimateApp', []);
 
-costEstimateApp.factory('NumberHelper', function() {
+app.factory('NumberHelper', function() {
     var NumberHelper = {};
 
     NumberHelper.format = function (number, decimals, dec_point, thousands_sep) {
@@ -27,7 +27,7 @@ costEstimateApp.factory('NumberHelper', function() {
     return NumberHelper;
 });
 
-costEstimateApp.factory('CONSTANT', function () {
+app.factory('CONSTANT', function () {
     return {
         WORKING_HOURS_PER_DAY: 8, // hours
         PRICE_PER_HOUR: 25, // dollars
@@ -36,177 +36,296 @@ costEstimateApp.factory('CONSTANT', function () {
     };
 });
 
-costEstimateApp.factory('Accountant', [
-    'CONSTANT',
-    'FilledForm',
-    function (
-        CONSTANT,
-        FilledForm
-    ) {
+app.factory('BaseCalculator', ['FilledForm', function (FilledForm) {
+    var BaseCalculator = function () {
+        this.__mandays = 0;
+        this.__baseMandays = 0;
+    };
 
-    var Accountant = {};
+    BaseCalculator.prototype.init = function () {
+        this.__mandays = 0;
+        this.__baseMandays =  0;
+    };
 
-    /** STEP && PROGRESS **/
-    Accountant.getStep = function () {
+    BaseCalculator.prototype.getMandays = function () {
+        return this.__mandays;
+    };
+
+    BaseCalculator.prototype.calculateProductGroup = function () {
         var productGroup = FilledForm.getProductGroup();
-        var productTypes = FilledForm.getProductTypes();
         var productScale = FilledForm.getProductScale();
+
+        this.__baseMandays = costEstimateConfig[productGroup]['scales'][productScale]['mandays'];
+    };
+
+    BaseCalculator.prototype.calculateProductTypes = function () {
+        var productGroup = FilledForm.getProductGroup();
+        var productTypes = FilledForm.getProductTypes()[productGroup];
+
+        for (var productTypeSlug in productTypes) {
+            var status = productTypes[productTypeSlug];
+
+            if (status) {
+                var multiple = costEstimateConfig[productGroup]['types'][productTypeSlug]['multiplier'];
+
+                this.__mandays += this.__baseMandays * multiple;
+            }
+        }
+    };
+
+    BaseCalculator.prototype.calculateAdditionalFeatures = function () {
+        var productGroup = FilledForm.getProductGroup();
+        var additionalFeatures = FilledForm.getAdditionalFeatures()[productGroup];
+
+        for (var featureSlug in additionalFeatures) {
+            var status = additionalFeatures[featureSlug];
+
+            if (status) {
+                this.calculateFeature(featureSlug);
+            }
+        }
+    };
+
+    BaseCalculator.prototype.calculateFeature = function (featureSlug) {
+        var productGroup = FilledForm.getProductGroup();
+        var data = costEstimateConfig[productGroup]['additional-features'][featureSlug];
+
+        if (typeof data.mandays != undefined) {
+            this.__mandays += data.mandays;
+        }
+    };
+
+    BaseCalculator.prototype.calculateQuality = function () {
         var quality = FilledForm.getQuality();
-        var step = 1;
-
-        if (productGroup != null) {
-            step++;
-        }
-
-        if (step == 2 &&
-            productTypes.hasOwnProperty([productGroup]) &&
-            Object.keys(FilledForm.getProductTypes()[productGroup]).length > 0) {
-            step++;
-        }
-
-        if (step == 3 && productScale != null) {
-            step++;
-        }
-
-        if (step == 4 && quality != null) {
-            step++;
-        }
-
-        return step;
-    };
-
-    Accountant.getProgress = function () {
-        return this.getStep() / 5 * 100;
-    };
-
-    /**************** CALCULATE MANDAYS && COSTS *********************/
-    Accountant.getMandays = function () {
-        var basePrice = 0.00;
-        var subPrice = 0.00;
-
         var productGroup = FilledForm.getProductGroup();
-        var productScale = FilledForm.getProductScale();
-        var step = this.getStep();
-        var config = costEstimateConfig;
 
-        // PRODUCT GROUP & SCALE
-        if (step >= 4) {
-            basePrice = config[productGroup]['scales'][productScale]['mandays'];
-        }
-
-        var supportBoth = false;
-
-        // PRODUCT TYPES
-        if (step >= 4) {
-            var productTypes = FilledForm.getProductTypes()[productGroup];
-
-            for (var productTypeSlug in productTypes) {
-                var status = productTypes[productTypeSlug];
-
-                if (status) {
-                    var multiple = config[productGroup]['types'][productTypeSlug]['multiplier'];
-
-                    subPrice += basePrice * multiple;
-                }
-            }
-
-            // Discount when make both pc & mobile version.
-            if (typeof productTypes['pc'] != typeof undefined &&
-                typeof productTypes['mobile'] != typeof undefined &&
-                productTypes['pc'] && productTypes['mobile']) {
-                subPrice = basePrice * 1.5;
-                supportBoth = true;
-            }
-        }
-
-        // ADDITIONAL FEATURES
-        if (step >= 4) {
-            var data;
-            var additionalFeatures = FilledForm.getAdditionalFeatures()[productGroup];
-
-            for (var featureSlug in additionalFeatures) {
-                var status = additionalFeatures[featureSlug];
-
-                if (status) {
-                    if (featureSlug == 'design') {
-                        subPrice += 5 + basePrice * 0.2;
-                    } else if (featureSlug == 'responsive') {
-                        if (!supportBoth) {
-                            subPrice += basePrice * 0.5;
-                        }
-                    } else {
-                        data = config[productGroup]['additional-features'][featureSlug];
-
-                        if (typeof data.mandays != undefined) {
-                            subPrice += data.mandays;
-                        }
-                    }
-                }
-            }
-
-            // SNS
-            if (typeof FilledForm.getExtraFeatures()[productGroup] != typeof undefined &&
-                typeof FilledForm.getExtraFeatures()[productGroup]['sns-login'] != typeof undefined
-            ) {
-                data = config[productGroup]['additional-features']['sns-login'];
-
-                var checkboxes = FilledForm.getExtraFeatures()[productGroup]['sns-login'];
-                var total = 0;
-
-                for (var snsSlug in checkboxes) {
-                    var status = checkboxes[snsSlug];
-
-                    if (status) {
-                        total ++;
-                    }
-                }
-
-                subPrice += total * data['each'];
-            }
-
-            // Other service integration
-            if (typeof FilledForm.getExtraFeatures()[productGroup] != typeof undefined &&
-                typeof FilledForm.getExtraFeatures()[productGroup]['other-service-integration'] != typeof undefined
-            ) {
-                data = config[productGroup]['additional-features']['other-service-integration'];
-
-                var quantityOtherSerivce = FilledForm.getExtraFeatures()[productGroup]['other-service-integration'];
-
-                subPrice += quantityOtherSerivce * data['each'];
-            }
-        }
-
-        // QUALITY
-        if (step >= 5) {
-            var quality = FilledForm.getQuality();
-
-            subPrice *= config[productGroup]['quality'][quality]['multiplier'];
-        }
-
-        // Final total price.
-        return subPrice;
+        this.__mandays *= costEstimateConfig[productGroup]['quality'][quality]['multiplier'];
     };
 
-    Accountant.getDevelopmentCost = function () {
-        return this.getMandays() * CONSTANT.WORKING_HOURS_PER_DAY * CONSTANT.PRICE_PER_HOUR;
-    };
-
-    Accountant.getQACost = function () {
-        return this.getDevelopmentCost() * CONSTANT.PM_QA_COST;
-    };
-
-    Accountant.getVAT = function () {
-        return this.getDevelopmentCost() * CONSTANT.TAX / 100;
-    };
-
-    Accountant.getTotalCost = function () {
-        return this.getDevelopmentCost() + this.getQACost() + this.getVAT();
-    };
-
-    return Accountant;
+    return BaseCalculator;
 }]);
 
-costEstimateApp.factory('FilledForm', function () {
+app.factory('DesktopAppCalculator',  ['BaseCalculator', 'FilledForm', function (BaseCalculator, FilledForm) {
+    var DesktopAppCalculator = function () {
+        BaseCalculator.apply(this, arguments);
+    };
+
+    DesktopAppCalculator.prototype = new BaseCalculator();
+
+    DesktopAppCalculator.prototype.calculateAdditionalFeatures = function () {
+        BaseCalculator.prototype.calculateAdditionalFeatures.apply(this, arguments);
+
+        var data;
+        var productGroup = FilledForm.getProductGroup();
+
+        //SNS
+        if (typeof FilledForm.getExtraFeatures()[productGroup] != typeof undefined &&
+            typeof FilledForm.getExtraFeatures()[productGroup]['sns-login'] != typeof undefined
+        ) {
+            data = costEstimateConfig[productGroup]['additional-features']['sns-login'];
+
+            var checkboxes = FilledForm.getExtraFeatures()[productGroup]['sns-login'];
+            var total = 0;
+
+            for (var snsSlug in checkboxes) {
+                var status = checkboxes[snsSlug];
+
+                if (status) {
+                    total ++;
+                }
+            }
+
+            this.__mandays += total * data['each'];
+        }
+
+        // Other service integration
+        if (typeof FilledForm.getExtraFeatures()[productGroup] != typeof undefined &&
+            typeof FilledForm.getExtraFeatures()[productGroup]['other-service-integration'] != typeof undefined
+        ) {
+            data = costEstimateConfig[productGroup]['additional-features']['other-service-integration'];
+
+            var quantityOtherSerivce = FilledForm.getExtraFeatures()[productGroup]['other-service-integration'];
+
+            this.__mandays += quantityOtherSerivce * data['each'];
+        }
+    };
+
+    return DesktopAppCalculator;
+}]);
+
+app.factory('WebAppCalculator',  ['DesktopAppCalculator', 'FilledForm', function (DesktopAppCalculatorgi, FilledForm) {
+    var __supportBoth = false;
+
+    var WebAppCalculator = function () {
+        DesktopAppCalculator.apply(this, arguments);
+    };
+
+    WebAppCalculator.prototype = new DesktopAppCalculator();
+
+    WebAppCalculator.prototype.calculateProductTypes = function () {
+        DesktopAppCalculator.prototype.calculateProductTypes.apply(this, arguments);
+
+        //Discount when make both pc & mobile version.
+        var productGroup = FilledForm.getProductGroup();
+        var productTypes = FilledForm.getProductTypes()[productGroup];
+
+        if (typeof productTypes['pc'] != typeof undefined &&
+            typeof productTypes['mobile'] != typeof undefined &&
+            productTypes['pc'] && productTypes['mobile']) {
+
+            this.__mandays = this.__baseMandays * 1.5;
+
+            __supportBoth = true;
+        } else {
+            __supportBoth = false;
+        }
+    };
+
+    WebAppCalculator.prototype.calculateFeature = function (featureSlug) {
+        if (featureSlug == 'design') {
+            this.__mandays += 5 + this.__baseMandays * 0.2;
+        } else if (featureSlug == 'responsive') {
+            if (!__supportBoth) {
+                this.__mandays += this.__baseMandays * 0.5;
+            }
+        } else {
+            DesktopAppCalculator.prototype.calculateFeature.apply(this, arguments);
+        }
+    };
+
+    return WebAppCalculator;
+}]);
+
+app.factory('CalculatorFactory', [
+    'BaseCalculator',
+    'FilledForm',
+    'DesktopAppCalculator',
+    'WebAppCalculator',
+    function (BaseCalculator, FilledForm, DesktopAppCalculator, WebAppCalculator) {
+
+    var CalculatorFactory = {};
+
+    CalculatorFactory.getInstance = function () {
+
+        var Calculator;
+
+        switch (FilledForm.getProductGroup()) {
+            case 'desktop-app':
+                Calculator = new DesktopAppCalculator;
+                break;
+
+            case 'mobile-app':
+                Calculator = new DesktopAppCalculator;
+                break;
+
+            case 'static-website':
+                Calculator = new WebAppCalculator;
+                break;
+
+            case 'web-app':
+                Calculator = new WebAppCalculator;
+                break;
+        }
+
+        if (!Calculator) {
+            return null;
+        }
+
+        Calculator.init();
+
+        return Calculator;
+    };
+
+    return CalculatorFactory;
+}]);
+
+app.factory('Accountant', [
+    'CONSTANT',
+    'FilledForm',
+    'CalculatorFactory',
+    function (
+        CONSTANT,
+        FilledForm,
+        CalculatorFactory
+        ) {
+
+        var Accountant = {};
+        /** STEP && PROGRESS **/
+        Accountant.getStep = function () {
+            var productGroup = FilledForm.getProductGroup();
+            var productTypes = FilledForm.getProductTypes();
+            var productScale = FilledForm.getProductScale();
+            var quality = FilledForm.getQuality();
+            var step = 1;
+
+            if (productGroup != null) {
+                step++;
+            }
+
+            if (step == 2 &&
+                productTypes.hasOwnProperty([productGroup]) &&
+                Object.keys(FilledForm.getProductTypes()[productGroup]).length > 0) {
+                step++;
+            }
+
+            if (step == 3 && productScale != null) {
+                step++;
+            }
+
+            if (step == 4 && quality != null) {
+                step++;
+            }
+
+            return step;
+        };
+
+        Accountant.getProgress = function () {
+            return this.getStep() / 5 * 100;
+        };
+
+        /**************** CALCULATE MANDAYS && COSTS *********************/
+        Accountant.getMandays = function () {
+            var step = this.getStep();
+
+            if (step < 4) {
+                return 0;
+            }
+
+            var Calculator = CalculatorFactory.getInstance();
+
+            if (step >= 4) {
+                Calculator.calculateProductGroup();
+                Calculator.calculateProductTypes();
+                Calculator.calculateAdditionalFeatures();
+            }
+
+            if (step >= 5) {
+                Calculator.calculateQuality();
+            }
+
+            return Calculator.getMandays();
+        };
+
+        Accountant.getDevelopmentCost = function () {
+            return this.getMandays() * CONSTANT.WORKING_HOURS_PER_DAY * CONSTANT.PRICE_PER_HOUR;
+        };
+
+        Accountant.getQACost = function () {
+            return this.getDevelopmentCost() * CONSTANT.PM_QA_COST;
+        };
+
+        Accountant.getVAT = function () {
+            return this.getDevelopmentCost() * CONSTANT.TAX / 100;
+        };
+
+        Accountant.getTotalCost = function () {
+            return this.getDevelopmentCost() + this.getQACost() + this.getVAT();
+        };
+
+        return Accountant;
+}]);
+
+app.factory('FilledForm', function () {
     var FilledForm = {};
 
     /** PRODUCT GROUP **/
@@ -313,7 +432,7 @@ costEstimateApp.factory('FilledForm', function () {
     return FilledForm;
 });
 
-costEstimateApp.controller('costEstimateController', [
+app.controller('costEstimateController', [
     '$scope',
     'NumberHelper',
     'Accountant',
