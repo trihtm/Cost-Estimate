@@ -45,12 +45,12 @@ body.ng-scope {
 }
 
 .page-header h1 {
-    font-size: 59pt;
+    font-size: 59px;
     font-family: MerloRoundBold;
 }
 
 .page-header p {
-    font-size: 18pt;
+    font-size: 18px;
 }
 
 .estimate-progress .row > div {
@@ -58,17 +58,17 @@ body.ng-scope {
 }
 
 .estimate-progress h3 {
-    font-size: 30pt;
+    font-size: 30px;
     font-family: MerloRoundBold;
 }
 
 .estimate-progress button {
-    font-size: 16pt;
+    font-size: 16px;
     font-family: MerloRoundMedium;
 }
 
 .estimate-progress table {
-    font-size: 20pt;
+    font-size: 20px;
     font-family: MerloRoundBold;
 }
 
@@ -79,7 +79,7 @@ body.ng-scope {
 
 .estimate-progress table label,
 .estimate-progress table .input-group-addon {
-    font-size: 16pt;
+    font-size: 16px;
     font-family: MerloRoundMedium;
 }
 
@@ -91,14 +91,14 @@ body.ng-scope {
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
-    height: 360px;
+    height: 310px;
     z-index: 100;
 }
 
 .estimate-result h3 {
     padding: 0;
     margin: 0;
-    font-size: 30pt;
+    font-size: 30px;
     font-family: MerloRoundBold;
 }
 
@@ -106,25 +106,25 @@ body.ng-scope {
     max-width: 600px;
     width: auto !important;
     text-align: center;
-    font-size: 16pt;
+    font-size: 16px;
     font-family: MerloRoundBold;
 }
 
-.estimate-result dl {
+.estimate-result .dl-horizontal {
     padding: 0 30px;
 }
 
-.estimate-result dd {
+.estimate-result .dl-horizontal dd {
     text-align: right;
 }
 
-.estimate-result dt, .estimate-result dd {
+.estimate-result .dl-horizontal dt, .estimate-result .dl-horizontal dd {
     margin-bottom: 10px;
 }
 
 .estimate-result button {
     font-family: MerloRoundMedium;
-    font-size: 16pt;
+    font-size: 16px;
 }
 
 /* Sticky footer styles
@@ -136,5 +136,53 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    margin-bottom: 360px;
+    margin-bottom: 310px;
+}
+
+@media screen and (max-width: 640px) {
+    body {
+        margin: 0;
+    }
+
+    .footer.estimate-result {
+        position: relative;
+        height: auto;
+    }
+
+    dl.dl-horizontal dd, dl.dl-horizontal dt {
+        text-align: center !important;
+    }
+
+    .page-header h1 {
+        font-size: 36px;
+    }
+
+    .page-header p {
+        font-size: 16px;
+    }
+
+    .estimate-progress h3 {
+        font-size: 22px;
+    }
+
+    .estimate-progress button {
+        font-size: 14px;
+    }
+
+    .estimate-progress table {
+        font-size: 14px;
+    }
+
+    .estimate-progress table label,
+    .estimate-progress table .input-group-addon {
+        font-size: 14px;
+    }
+
+    .estimate-result h3 {
+        font-size: 18px;
+    }
+
+    .estimate-result .container {
+        font-size: 14px;
+    }
 }
