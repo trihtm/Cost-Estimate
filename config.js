@@ -45,12 +45,12 @@ var costEstimateConfig = {
             },
 
             'admin-system': {
-                'name': 'Admin System (10 views)',
+                'name': 'Backend admin system (10 views)',
                 'mandays': 4
             },
 
             'sns-login': {
-                'name': 'Social Network System Login',
+                'name': 'User login with social network accounts',
                 'extraForm': true,
                 'each': 1,
                 'lists': {
@@ -73,12 +73,12 @@ var costEstimateConfig = {
             },
 
             'newsletter': {
-                'name': 'NewsLetter Sending System',
+                'name': 'Email / newsletter sending system',
                 'mandays': 3
             },
 
             'notification': {
-                'name': 'Push Notification Sending System',
+                'name': 'Push notification sending system',
                 'mandays': 3
             },
 
@@ -101,12 +101,12 @@ var costEstimateConfig = {
 
         'quality': {
             'prototype': {
-                'name': 'Prototype Quality',
+                'name': 'Prototype',
                 'multiplier': 1
             },
 
             'release': {
-                'name': 'Release Quality',
+                'name': 'Public release',
                 'multiplier': 1.3
             }
         }
@@ -188,12 +188,12 @@ var costEstimateConfig = {
             },
 
             'admin-system': {
-                'name': 'Admin System (10 views)',
+                'name': 'Backend admin system (10 views)',
                 'mandays': 4
             },
 
             'sns-login': {
-                'name': 'Social Network System Login',
+                'name': 'User login with social network accounts',
                 'extraForm': true,
                 'each': 1,
                 'lists': {
@@ -216,12 +216,12 @@ var costEstimateConfig = {
             },
 
             'newsletter': {
-                'name': 'NewsLetter Sending System',
+                'name': 'Email / newsletter sending system',
                 'mandays': 3
             },
 
             'notification': {
-                'name': 'Push Notification Sending System',
+                'name': 'Push notification sending system',
                 'mandays': 3
             },
 
@@ -244,12 +244,12 @@ var costEstimateConfig = {
 
         'quality': {
             'prototype': {
-                'name': 'Prototype Quality',
+                'name': 'Prototype',
                 'multiplier': 1
             },
 
             'release': {
-                'name': 'Release Quality',
+                'name': 'Public release',
                 'multiplier': 1.3
             }
         }
@@ -316,12 +316,12 @@ var costEstimateConfig = {
 
         'quality': {
             'prototype': {
-                'name': 'Prototype Quality',
+                'name': 'Prototype',
                 'multiplier': 1
             },
 
             'release': {
-                'name': 'Release Quality',
+                'name': 'Public release',
                 'multiplier': 1.3
             }
         }
@@ -372,12 +372,12 @@ var costEstimateConfig = {
             },
 
             'admin-system': {
-                'name': 'Admin System (10 views)',
+                'name': 'Backend admin system (10 views)',
                 'mandays': 4
             },
 
             'sns-login': {
-                'name': 'Social Network System Login',
+                'name': 'User login with social network accounts',
                 'extraForm': true,
                 'each': 1,
                 'lists': {
@@ -400,12 +400,12 @@ var costEstimateConfig = {
             },
 
             'newsletter': {
-                'name': 'NewsLetter Sending System',
+                'name': 'Email / newsletter sending system',
                 'mandays': 3
             },
 
             'notification': {
-                'name': 'Push Notification Sending System',
+                'name': 'Push notification sending system',
                 'mandays': 3
             },
 
@@ -428,12 +428,12 @@ var costEstimateConfig = {
 
         'quality': {
             'prototype': {
-                'name': 'Prototype Quality',
+                'name': 'Prototype',
                 'multiplier': 1
             },
 
             'release': {
-                'name': 'Release Quality',
+                'name': 'Public release',
                 'multiplier': 1.3
             }
         }

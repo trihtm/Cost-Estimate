@@ -7,7 +7,7 @@
 
         <title>Project Cost Estimate</title>
 
-        <link href="assets/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link href="index.css" rel="stylesheet" />
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -20,27 +20,26 @@
     <body ng-controller="costEstimateController as costEstimate">
         <div class="container">
             <div class="page-header">
-                <h1>Cost Estimate</h1>
+                <h1>Get an estimate</h1>
+
+                <p>Let us know about your project and get an instant estimation.</p>
             </div>
 
             <div class="row">
                 <div class="col-lg-4">
-                    <h3>Product Summary</h3>
+                    <h3>Our estimation for your project</h3>
 
                     <hr />
 
                     <dl class="dl-horizontal">
-                        <dt>Development Cost</dt>
-                        <dd>${{ NumberHelper.format(Accountant.getDevelopmentCost()) }}</dd>
+                        <dt>Total time required:</dt>
+                        <dd>{{ Accountant.getRequiredTime() }} hours</dd>
 
-                        <dt>QA Cost</dt>
-                        <dd>${{ NumberHelper.format(Accountant.getQACost()) }}</dd>
+                        <dt>Total cost:</dt>
+                        <dd>{{ NumberHelper.format(Accountant.getTotalCost()) }} USD ($)</dd>
 
-                        <dt>VAT({{ TAX }}%)</dt>
-                        <dd>${{ NumberHelper.format(Accountant.getVAT()) }}</dd>
-
-                        <dt>Total</dt>
-                        <dd>${{ NumberHelper.format(Accountant.getTotalCost()) }}</dd>
+                        <dt>Turn over time:</dt>
+                        <dd>{{ Accountant.getMandays() }} days</dd>
                     </dl>
 
                     <hr />
@@ -49,7 +48,7 @@
                         <button type="button" class="btn btn-reserve"
                                 ng-class="{'btn-primary': Accountant.getStep() == 5}"
                                 ng-click="costEstimate.submit()">
-                            Buy now
+                            Arrange a meeting
                         </button>
                     </div>
                 </div>
@@ -62,7 +61,7 @@
                         </div>
                     </div>
 
-                    <h3>Step 1. Choose a product group</h3>
+                    <h3>1. What type of product you want to build?</h3>
 
                     <hr />
 
@@ -75,7 +74,7 @@
                     </div>
 
                     <div ng-if="Accountant.getStep() >= 2">
-                        <h3>Step 2. Choose a product type</h3>
+                        <h3>2. What platforms does it need to work on?</h3>
 
                         <hr />
 
@@ -94,7 +93,7 @@
                     </div>
 
                     <div ng-if="Accountant.getStep() >= 3">
-                        <h3>Step 3. Choose a product scale</h3>
+                        <h3>3. What size is your product?</h3>
 
                         <hr />
 
@@ -113,7 +112,19 @@
                     </div>
 
                     <div ng-if="Accountant.getStep() >= 4">
-                        <h3>Step 4. Choose additional features</h3>
+                        <h3>4. Do you need design service for your product?</h3>
+
+                        <hr />
+
+                        <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
+                            <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
+                                <div ng-repeat="(featureSlug, feature) in CONFIG[productGroupSlug]['additional-features']" ng-if="featureSlug == 'design'">
+                                    Design
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>5. Do you need more advanced features?</h3>
 
                         <hr />
 
@@ -126,7 +137,7 @@
                                         <th width="40%">Action</th>
                                     </tr>
 
-                                    <tr ng-repeat="(featureSlug, feature) in CONFIG[productGroupSlug]['additional-features']">
+                                    <tr ng-repeat="(featureSlug, feature) in CONFIG[productGroupSlug]['additional-features']" ng-if="featureSlug != 'design'">
                                         <td>
                                             {{ feature.name }}
                                         </td>
@@ -171,7 +182,7 @@
                     </div>
 
                     <div ng-if="Accountant.getStep() >= 4">
-                        <h3>Last step. Choose quality multiplier</h3>
+                        <h3>6. Choose your product built quality</h3>
 
                         <hr />
 
@@ -194,7 +205,7 @@
             </div>
         </div>
 
-        <script src="assets/angular-1.4.8/angular.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular/angular.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="config.js"></script>
         <script type="text/javascript" src="index.js"></script>
     </body>

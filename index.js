@@ -306,6 +306,10 @@ app.factory('Accountant', [
             return Calculator.getMandays();
         };
 
+        Accountant.getRequiredTime = function () {
+            return Accountant.getMandays() * CONSTANT.WORKING_HOURS_PER_DAY;
+        };
+
         Accountant.getDevelopmentCost = function () {
             return this.getMandays() * CONSTANT.WORKING_HOURS_PER_DAY * CONSTANT.PRICE_PER_HOUR;
         };
