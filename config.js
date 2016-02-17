@@ -22,19 +22,19 @@ var costEstimateConfig = {
         'scales': {
             'simple': {
                 'pages': 10,
-                'name': 'Simple',
+                'name': 'Simple (1-10 pages)',
                 'mandays': 15
             },
 
             'moderate': {
                 'pages': 20,
-                'name': 'Moderate',
+                'name': 'Moderate (11-20 pages)',
                 'mandays': 25
             },
 
             'large': {
                 'pages': 30,
-                'name': 'Large',
+                'name': 'Large (21-30 pages)',
                 'mandays': 40
             }
         },
@@ -45,12 +45,12 @@ var costEstimateConfig = {
             },
 
             'admin-system': {
-                'name': 'Admin System (10 views)',
+                'name': 'Backend admin system (10 views)',
                 'mandays': 4
             },
 
             'sns-login': {
-                'name': 'Social Network System Login',
+                'name': 'User login with social network accounts',
                 'extraForm': true,
                 'each': 1,
                 'lists': {
@@ -73,12 +73,12 @@ var costEstimateConfig = {
             },
 
             'newsletter': {
-                'name': 'NewsLetter Sending System',
+                'name': 'Email / newsletter sending system',
                 'mandays': 3
             },
 
             'notification': {
-                'name': 'Push Notification Sending System',
+                'name': 'Push notification sending system',
                 'mandays': 3
             },
 
@@ -101,12 +101,12 @@ var costEstimateConfig = {
 
         'quality': {
             'prototype': {
-                'name': 'Prototype Quality',
+                'name': 'Prototype',
                 'multiplier': 1
             },
 
             'release': {
-                'name': 'Release Quality',
+                'name': 'Public release',
                 'multiplier': 1.3
             }
         }
@@ -165,19 +165,19 @@ var costEstimateConfig = {
         'scales': {
             'simple': {
                 'pages': 10,
-                'name': 'Simple',
+                'name': 'Simple (1-10 pages)',
                 'mandays': 15
             },
 
             'moderate': {
                 'pages': 20,
-                'name': 'Moderate',
+                'name': 'Moderate (11-20 pages)',
                 'mandays': 25
             },
 
             'large': {
                 'pages': 30,
-                'name': 'Large',
+                'name': 'Large (21-30 pages)',
                 'mandays': 40
             }
         },
@@ -188,12 +188,12 @@ var costEstimateConfig = {
             },
 
             'admin-system': {
-                'name': 'Admin System (10 views)',
+                'name': 'Backend admin system (10 views)',
                 'mandays': 4
             },
 
             'sns-login': {
-                'name': 'Social Network System Login',
+                'name': 'User login with social network accounts',
                 'extraForm': true,
                 'each': 1,
                 'lists': {
@@ -216,12 +216,12 @@ var costEstimateConfig = {
             },
 
             'newsletter': {
-                'name': 'NewsLetter Sending System',
+                'name': 'Email / newsletter sending system',
                 'mandays': 3
             },
 
             'notification': {
-                'name': 'Push Notification Sending System',
+                'name': 'Push notification sending system',
                 'mandays': 3
             },
 
@@ -244,12 +244,12 @@ var costEstimateConfig = {
 
         'quality': {
             'prototype': {
-                'name': 'Prototype Quality',
+                'name': 'Prototype',
                 'multiplier': 1
             },
 
             'release': {
-                'name': 'Release Quality',
+                'name': 'Public release',
                 'multiplier': 1.3
             }
         }
@@ -272,19 +272,19 @@ var costEstimateConfig = {
         'scales': {
             'simple': {
                 'pages': 5,
-                'name': 'Simple',
+                'name': 'Simple (1-10 pages)',
                 'mandays': 5
             },
 
             'moderate': {
                 'pages': 10,
-                'name': 'Moderate',
+                'name': 'Moderate (11-20 pages)',
                 'mandays': 8
             },
 
             'large': {
                 'pages': 20,
-                'name': 'Large',
+                'name': 'Large (21-30 pages)',
                 'mandays': 10
             }
         },
@@ -316,19 +316,19 @@ var costEstimateConfig = {
 
         'quality': {
             'prototype': {
-                'name': 'Prototype Quality',
+                'name': 'Prototype',
                 'multiplier': 1
             },
 
             'release': {
-                'name': 'Release Quality',
+                'name': 'Public release',
                 'multiplier': 1.3
             }
         }
     },
 
     'web-app': {
-        'name': 'Web App',
+        'name': 'Dynamic website / web app',
 
         'types': {
             'pc': {
@@ -345,19 +345,19 @@ var costEstimateConfig = {
         'scales': {
             'simple': {
                 'pages': 10,
-                'name': 'Simple',
+                'name': 'Simple (1-10 pages)',
                 'mandays': 15
             },
 
             'moderate': {
                 'pages': 20,
-                'name': 'Moderate',
+                'name': 'Moderate (11-20 pages)',
                 'mandays': 25
             },
 
             'large': {
                 'pages': 30,
-                'name': 'Large',
+                'name': 'Large (21-30 pages)',
                 'mandays': 40
             }
         },
@@ -372,12 +372,12 @@ var costEstimateConfig = {
             },
 
             'admin-system': {
-                'name': 'Admin System (10 views)',
+                'name': 'Backend admin system (10 views)',
                 'mandays': 4
             },
 
             'sns-login': {
-                'name': 'Social Network System Login',
+                'name': 'User login with social network accounts',
                 'extraForm': true,
                 'each': 1,
                 'lists': {
@@ -400,12 +400,12 @@ var costEstimateConfig = {
             },
 
             'newsletter': {
-                'name': 'NewsLetter Sending System',
+                'name': 'Email / newsletter sending system',
                 'mandays': 3
             },
 
             'notification': {
-                'name': 'Push Notification Sending System',
+                'name': 'Push notification sending system',
                 'mandays': 3
             },
 
@@ -428,12 +428,12 @@ var costEstimateConfig = {
 
         'quality': {
             'prototype': {
-                'name': 'Prototype Quality',
+                'name': 'Prototype',
                 'multiplier': 1
             },
 
             'release': {
-                'name': 'Release Quality',
+                'name': 'Public release',
                 'multiplier': 1.3
             }
         }

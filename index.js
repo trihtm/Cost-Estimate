@@ -87,11 +87,15 @@ app.factory('BaseCalculator', ['FilledForm', function (FilledForm) {
     };
 
     BaseCalculator.prototype.calculateFeature = function (featureSlug) {
-        var productGroup = FilledForm.getProductGroup();
-        var data = costEstimateConfig[productGroup]['additional-features'][featureSlug];
+        if (featureSlug == 'design') {
+            this.__mandays += 5 + this.__baseMandays * 0.2;
+        } else {
+            var productGroup = FilledForm.getProductGroup();
+            var data = costEstimateConfig[productGroup]['additional-features'][featureSlug];
 
-        if (typeof data.mandays != undefined) {
-            this.__mandays += data.mandays;
+            if (typeof data.mandays != undefined) {
+                this.__mandays += data.mandays;
+            }
         }
     };
 
@@ -182,9 +186,7 @@ app.factory('WebAppCalculator',  ['DesktopAppCalculator', 'FilledForm', function
     };
 
     WebAppCalculator.prototype.calculateFeature = function (featureSlug) {
-        if (featureSlug == 'design') {
-            this.__mandays += 5 + this.__baseMandays * 0.2;
-        } else if (featureSlug == 'responsive') {
+        if (featureSlug == 'responsive') {
             if (!__supportBoth) {
                 this.__mandays += this.__baseMandays * 0.5;
             }
@@ -304,6 +306,10 @@ app.factory('Accountant', [
             }
 
             return Calculator.getMandays();
+        };
+
+        Accountant.getRequiredTime = function () {
+            return Accountant.getMandays() * CONSTANT.WORKING_HOURS_PER_DAY;
         };
 
         Accountant.getDevelopmentCost = function () {
