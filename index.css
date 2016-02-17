@@ -69,7 +69,7 @@ body.ng-scope {
 
 .estimate-progress table {
     font-size: 20px;
-    font-family: MerloRoundBold;
+    font-family: MerloRoundMedium;
 }
 
 .estimate-progress table td,
@@ -81,6 +81,13 @@ body.ng-scope {
 .estimate-progress table .input-group-addon {
     font-size: 16px;
     font-family: MerloRoundMedium;
+}
+
+.estimate-progress table input[type='checkbox'] {
+    width: 25px;
+    height: 25px;
+    right: 80px;
+    top: -2px;
 }
 
 .footer.estimate-result {
@@ -127,6 +134,16 @@ body.ng-scope {
     font-size: 16px;
 }
 
+.on-off-hub {
+    font-size: 20px;
+    font-family: MerloRoundMedium;
+}
+
+.on-off-hub .switch {
+    top: 10px;
+    margin: 0 10px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -169,7 +186,7 @@ body {
         font-size: 14px;
     }
 
-    .estimate-progress table {
+    .estimate-progress table, .on-off-hub {
         font-size: 14px;
     }
 

@@ -1,4 +1,4 @@
-var app = angular.module('costEstimateApp', []);
+var app = angular.module('costEstimateApp', ['uiSwitch']);
 
 app.factory('NumberHelper', function() {
     var NumberHelper = {};
