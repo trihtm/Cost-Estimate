@@ -1,7 +1,205 @@
+@font-face {
+    font-family: 'MerloRoundBold';
+    src: url('fonts/MerloRound/Merlo%20Round%20Bold%20%5BTheFontsMaster.com%5D.eot');  /* IE9 Compat Modes */
+    src: url('fonts/MerloRound/Merlo%20Round%20Bold%20%5BTheFontsMaster.com%5D.eot?')  format('eot'),  /* IE6-IE8 */
+        url('fonts/MerloRound/Merlo%20Round%20Bold.woff2')  format('woff'),  /* Modern Browsers */
+        url('fonts/MerloRound/Merlo%20Round%20Bold%20%5BTheFontsMaster.com%5D.ttf')  format('truetype'),  /* Safari, Android, iOS */
+        url('fonts/MerloRound/Merlo%20Round%20Bold%20%5BTheFontsMaster.com%5D.svg#svgFontName')  format('svg');  /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MerloRoundMedium';
+    src: url('fonts/MerloRound/Merlo%20Round%20Medium%20%5BTheFontsMaster.com%5D.eot');  /* IE9 Compat Modes */
+    src: url('fonts/MerloRound/Merlo%20Round%20Medium%20%5BTheFontsMaster.com%5D.eot?')  format('eot'),  /* IE6-IE8 */
+    url('fonts/MerloRound/Merlo%20Round%20Medium.woff2')  format('woff'),  /* Modern Browsers */
+    url('fonts/MerloRound/Merlo%20Round%20Medium%20%5BTheFontsMaster.com%5D.ttf')  format('truetype'),  /* Safari, Android, iOS */
+    url('fonts/MerloRound/Merlo%20Round%20Medium%20%5BTheFontsMaster.com%5D.svg#svgFontName')  format('svg');  /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MerloRound';
+    src: url('fonts/MerloRound/Merlo%20Round%20Regular%20%5BTheFontsMaster.com%5D.eot');  /* IE9 Compat Modes */
+    src: url('fonts/MerloRound/Merlo%20Round%20Regular%20%5BTheFontsMaster.com%5D.eot?')  format('eot'),  /* IE6-IE8 */
+        url('fonts/MerloRound/Merlo%20Round%20Regular.woff2')  format('woff'),  /* Modern Browsers */
+        url('fonts/MerloRound/Merlo%20Round%20Regular%20%5BTheFontsMaster.com%5D.ttf')  format('truetype'),  /* Safari, Android, iOS */
+        url('fonts/MerloRound/Merlo%20Round%20Regular%20%5BTheFontsMaster.com%5D.svg#svgFontName')  format('svg');  /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     display: none;
+    font-family: MerloRound;
 }
 
 body.ng-scope {
     display: block;
+}
+
+.page-header {
+    border-bottom: none;
+}
+
+.page-header h1 {
+    font-size: 59px;
+    font-family: MerloRoundBold;
+}
+
+.page-header p {
+    font-size: 18px;
+}
+
+.estimate-progress .row > div {
+    margin-bottom: 15px;
+}
+
+.estimate-progress h3 {
+    font-size: 30px;
+    font-family: MerloRoundBold;
+}
+
+.estimate-progress button {
+    font-size: 16px;
+    font-family: MerloRoundMedium;
+}
+
+.estimate-progress table {
+    font-size: 20px;
+    font-family: MerloRoundMedium;
+}
+
+.estimate-progress table td,
+.estimate-progress table th {
+    border-top: none !important;
+}
+
+.estimate-progress table label,
+.estimate-progress table .input-group-addon {
+    font-size: 16px;
+    font-family: MerloRoundMedium;
+}
+
+.estimate-progress table input[type='checkbox'] {
+    width: 25px;
+    height: 25px;
+    right: 80px;
+    top: -2px;
+}
+
+.footer.estimate-result {
+    background-color: #4B4B4B;
+    color: #fff;
+    padding: 30px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 310px;
+    z-index: 100;
+}
+
+.estimate-result h3 {
+    padding: 0;
+    margin: 0;
+    font-size: 30px;
+    font-family: MerloRoundBold;
+}
+
+.estimate-result .container {
+    max-width: 600px;
+    width: auto !important;
+    text-align: center;
+    font-size: 16px;
+    font-family: MerloRoundBold;
+}
+
+.estimate-result .dl-horizontal {
+    padding: 0 30px;
+}
+
+.estimate-result .dl-horizontal dd {
+    text-align: right;
+}
+
+.estimate-result .dl-horizontal dt, .estimate-result .dl-horizontal dd {
+    margin-bottom: 10px;
+}
+
+.estimate-result button {
+    font-family: MerloRoundMedium;
+    font-size: 16px;
+}
+
+.on-off-hub {
+    font-size: 20px;
+    font-family: MerloRoundMedium;
+}
+
+.on-off-hub .switch {
+    top: 10px;
+    margin: 0 2px;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 310px;
+}
+
+@media screen and (max-width: 640px) {
+    body {
+        margin: 0;
+    }
+
+    .footer.estimate-result {
+        position: relative;
+        height: auto;
+    }
+
+    dl.dl-horizontal dd, dl.dl-horizontal dt {
+        text-align: center !important;
+    }
+
+    .page-header h1 {
+        font-size: 36px;
+    }
+
+    .page-header p {
+        font-size: 16px;
+    }
+
+    .estimate-progress h3 {
+        font-size: 22px;
+    }
+
+    .estimate-progress button {
+        font-size: 14px;
+    }
+
+    .estimate-progress table, .on-off-hub {
+        font-size: 14px;
+    }
+
+    .estimate-progress table label,
+    .estimate-progress table .input-group-addon {
+        font-size: 14px;
+    }
+
+    .estimate-result h3 {
+        font-size: 18px;
+    }
+
+    .estimate-result .container {
+        font-size: 14px;
+    }
 }
