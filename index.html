@@ -104,7 +104,7 @@
                                     <button type="button" class="btn btn-default"
                                             ng-click="FilledForm.setProductScale(productScaleSlug)"
                                             ng-class="{'btn-primary': FilledForm.getProductScale() == productScaleSlug}">
-                                        {{ productScale.name }} ({{ productScale.pages }} pages)
+                                        {{ productScale.name }}
                                     </button>
                                 </div>
                             </div>
@@ -119,7 +119,11 @@
                         <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
                             <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
                                 <div ng-repeat="(featureSlug, feature) in CONFIG[productGroupSlug]['additional-features']" ng-if="featureSlug == 'design'">
-                                    Design
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="FilledForm.setFeature(featureSlug)"
+                                            ng-class="{'btn-primary': FilledForm.isFeatureChoosen(featureSlug)}">
+                                        Yes
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +175,7 @@
                                                 <button type="button" class="btn btn-default"
                                                         ng-click="FilledForm.setFeature(featureSlug)"
                                                         ng-class="{'btn-primary': FilledForm.isFeatureChoosen(featureSlug)}">
-                                                    Apply
+                                                    Yes
                                                 </button>
                                             </div>
                                         </td>

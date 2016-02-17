@@ -22,19 +22,19 @@ var costEstimateConfig = {
         'scales': {
             'simple': {
                 'pages': 10,
-                'name': 'Simple',
+                'name': 'Simple (1-10 pages)',
                 'mandays': 15
             },
 
             'moderate': {
                 'pages': 20,
-                'name': 'Moderate',
+                'name': 'Moderate (11-20 pages)',
                 'mandays': 25
             },
 
             'large': {
                 'pages': 30,
-                'name': 'Large',
+                'name': 'Large (21-30 pages)',
                 'mandays': 40
             }
         },
@@ -165,19 +165,19 @@ var costEstimateConfig = {
         'scales': {
             'simple': {
                 'pages': 10,
-                'name': 'Simple',
+                'name': 'Simple (1-10 pages)',
                 'mandays': 15
             },
 
             'moderate': {
                 'pages': 20,
-                'name': 'Moderate',
+                'name': 'Moderate (11-20 pages)',
                 'mandays': 25
             },
 
             'large': {
                 'pages': 30,
-                'name': 'Large',
+                'name': 'Large (21-30 pages)',
                 'mandays': 40
             }
         },
@@ -272,19 +272,19 @@ var costEstimateConfig = {
         'scales': {
             'simple': {
                 'pages': 5,
-                'name': 'Simple',
+                'name': 'Simple (1-10 pages)',
                 'mandays': 5
             },
 
             'moderate': {
                 'pages': 10,
-                'name': 'Moderate',
+                'name': 'Moderate (11-20 pages)',
                 'mandays': 8
             },
 
             'large': {
                 'pages': 20,
-                'name': 'Large',
+                'name': 'Large (21-30 pages)',
                 'mandays': 10
             }
         },
@@ -328,7 +328,7 @@ var costEstimateConfig = {
     },
 
     'web-app': {
-        'name': 'Web App',
+        'name': 'Dynamic website / web app',
 
         'types': {
             'pc': {
@@ -345,19 +345,19 @@ var costEstimateConfig = {
         'scales': {
             'simple': {
                 'pages': 10,
-                'name': 'Simple',
+                'name': 'Simple (1-10 pages)',
                 'mandays': 15
             },
 
             'moderate': {
                 'pages': 20,
-                'name': 'Moderate',
+                'name': 'Moderate (11-20 pages)',
                 'mandays': 25
             },
 
             'large': {
                 'pages': 30,
-                'name': 'Large',
+                'name': 'Large (21-30 pages)',
                 'mandays': 40
             }
         },
