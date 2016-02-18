@@ -94,7 +94,7 @@ body.ng-scope {
     background-color: #4B4B4B;
     color: #fff;
     padding: 30px 0;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
