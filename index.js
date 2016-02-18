@@ -464,9 +464,9 @@ app.controller('costEstimateController', [
     /******************* SUBMIT *****************/
     costEstimateController.submit = function () {
         if (Accountant.getStep() >= 5) {
-            alert('Submit success.');
+            window.location.href = 'http://innovatube.com/contact-us/';
         } else {
-            alert('Please choose information.');
+            alert('Please fill all information.');
         }
     };
 }]);
