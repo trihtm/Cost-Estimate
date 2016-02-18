@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Estimate Cost</title>
+        <title>Cost Estimate</title>
 
         <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="bower_components/angular-ui-switch/angular-ui-switch.min.css">
@@ -26,26 +26,29 @@
     <body ng-controller="costEstimateController as costEstimate">
         <div class="container">
             <div class="page-header">
-                <h1>Estimate Cost</h1>
+                <h1>Cost Estimate</h1>
 
                 <p>Let us know about your project and get an instant estimation.</p>
             </div>
 
-            <div class="estimate-progress">
+            <div class="estimate-progress" id="step-1">
                 <h3>1. What type of product you want to build?</h3>
 
                 <hr />
 
                 <div class="row">
                     <div class="col-md-3 col-sm-6 text-center" ng-repeat="(key, productGroup) in CONFIG">
-                        <button type="button" class="btn btn-default" ng-click="FilledForm.setProductGroup(key)" ng-class="{'btn-primary': FilledForm.getProductGroup() == key}">
+                        <button type="button" class="btn btn-default"
+                                ng-click="FilledForm.setProductGroup(key)"
+                                ng-class="{'btn-primary': FilledForm.getProductGroup() == key}"
+                                scroll-on-click href="#step-1">
                             {{ productGroup.name }}
                         </button>
                     </div>
                 </div>
 
                 <div ng-if="Accountant.getStep() >= 2">
-                    <h3>2. What platforms does it need to work on?</h3>
+                    <h3 id="step-2">2. What platforms does it need to work on?</h3>
 
                     <hr />
 
@@ -55,7 +58,8 @@
                                  ng-repeat="(productTypeSlug, productType) in CONFIG[productGroupSlug]['types']">
                                 <button type="button" class="btn btn-default"
                                         ng-click="FilledForm.setProductType(productTypeSlug)"
-                                        ng-class="{'btn-primary': FilledForm.isProductTypeChoosen(productTypeSlug)}">
+                                        ng-class="{'btn-primary': FilledForm.isProductTypeChoosen(productTypeSlug)}"
+                                        scroll-on-click href="#step-2">
                                     {{ productType.name }}
                                 </button>
                             </div>
@@ -64,7 +68,7 @@
                 </div>
 
                 <div ng-if="Accountant.getStep() >= 3">
-                    <h3>3. What size is your product?</h3>
+                    <h3 id="step-3">3. What size is your product?</h3>
 
                     <hr />
 
@@ -74,7 +78,8 @@
                                  ng-repeat="(productScaleSlug, productScale) in CONFIG[productGroupSlug]['scales']">
                                 <button type="button" class="btn btn-default"
                                         ng-click="FilledForm.setProductScale(productScaleSlug)"
-                                        ng-class="{'btn-primary': FilledForm.getProductScale() == productScaleSlug}">
+                                        ng-class="{'btn-primary': FilledForm.getProductScale() == productScaleSlug}"
+                                        scroll-on-click href="#step-3">
                                     {{ productScale.name }}
                                 </button>
                             </div>
@@ -83,7 +88,7 @@
                 </div>
 
                 <div ng-if="Accountant.getStep() >= 4">
-                    <h3>4. Do you need design service for your product?</h3>
+                    <h3 id="step-4">4. Do you need design service for your product?</h3>
 
                     <hr />
 
@@ -92,14 +97,16 @@
                             <div ng-repeat="(featureSlug, feature) in CONFIG[productGroupSlug]['additional-features']" ng-if="featureSlug == 'design'">
                                 <div class="on-off-hub">
                                     No
-                                    <switch id="enabled" name="enabled" ng-model="FilledForm.__additionalFeatures[productGroupSlug][featureSlug]"></switch>
+                                    <switch id="enabled" name="enabled"
+                                            ng-model="FilledForm.__additionalFeatures[productGroupSlug][featureSlug]"
+                                            scroll-on-click href="#step-4"></switch>
                                     Yes
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <h3>5. Do you need more advanced features?</h3>
+                    <h3 id="step-5">5. Do you need more advanced features?</h3>
 
                     <hr />
 
@@ -151,7 +158,7 @@
                 </div>
 
                 <div ng-if="Accountant.getStep() >= 4">
-                    <h3>6. Choose your product built quality</h3>
+                    <h3 id="step-6">6. Choose your product built quality</h3>
 
                     <hr />
 
@@ -204,6 +211,7 @@
 
         <script src="bower_components/angular/angular.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="bower_components/angular-ui-switch/angular-ui-switch.min.js"></script>
+        <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="config.js"></script>
         <script type="text/javascript" src="index.js"></script>
     </body>

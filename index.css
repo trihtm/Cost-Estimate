@@ -1,3 +1,7 @@
+::-webkit-scrollbar{width:5px;height:.25em;position:absolute}
+::-webkit-scrollbar-thumb{background-color:#a7adb4}
+::-webkit-scrollbar-track{background-color:rgba(0,0,0,0)}
+
 @font-face {
     font-family: 'MerloRoundBold';
     src: url('fonts/MerloRound/Merlo%20Round%20Bold%20%5BTheFontsMaster.com%5D.eot');  /* IE9 Compat Modes */
