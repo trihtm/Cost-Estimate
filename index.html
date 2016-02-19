@@ -36,15 +36,14 @@
 
                 <hr />
 
-                <div class="row">
-                    <div class="col-md-3 col-sm-6 text-center" ng-repeat="(key, productGroup) in CONFIG">
-                        <button type="button" class="btn btn-default"
-                                ng-click="FilledForm.setProductGroup(key)"
-                                ng-class="{'btn-primary': FilledForm.getProductGroup() == key}"
-                                scroll-on-click href="#step-1">
-                            {{ productGroup.name }}
-                        </button>
-                    </div>
+                <div>
+                    <button type="button" class="btn btn-default btn-lg"
+                        ng-repeat="(key, productGroup) in CONFIG"
+                        ng-click="FilledForm.setProductGroup(key)"
+                        ng-class="{'btn-primary': FilledForm.getProductGroup() == key}"
+                        scroll-on-click href="#step-1">
+                        {{ productGroup.name }}
+                    </button>
                 </div>
 
                 <div ng-if="Accountant.getStep() >= 2">
@@ -53,16 +52,14 @@
                     <hr />
 
                     <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
-                        <div class="row" ng-if="FilledForm.getProductGroup() == productGroupSlug">
-                            <div class="col-sm-4 text-center"
-                                 ng-repeat="(productTypeSlug, productType) in CONFIG[productGroupSlug]['types']">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="FilledForm.setProductType(productTypeSlug)"
-                                        ng-class="{'btn-primary': FilledForm.isProductTypeChoosen(productTypeSlug)}"
-                                        scroll-on-click href="#step-2">
-                                    {{ productType.name }}
-                                </button>
-                            </div>
+                        <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
+                            <button type="button" class="btn btn-default btn-lg"
+                                    ng-repeat="(productTypeSlug, productType) in CONFIG[productGroupSlug]['types']"
+                                    ng-click="FilledForm.setProductType(productTypeSlug)"
+                                    ng-class="{'btn-primary': FilledForm.isProductTypeChoosen(productTypeSlug)}"
+                                    scroll-on-click href="#step-2">
+                                {{ productType.name }}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -73,16 +70,14 @@
                     <hr />
 
                     <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
-                        <div class="row" ng-if="FilledForm.getProductGroup() == productGroupSlug">
-                            <div class="col-sm-4 text-center"
-                                 ng-repeat="(productScaleSlug, productScale) in CONFIG[productGroupSlug]['scales']">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="FilledForm.setProductScale(productScaleSlug)"
-                                        ng-class="{'btn-primary': FilledForm.getProductScale() == productScaleSlug}"
-                                        scroll-on-click href="#step-3">
-                                    {{ productScale.name }}
-                                </button>
-                            </div>
+                        <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
+                            <button type="button" class="btn btn-default btn-lg"
+                                    ng-repeat="(productScaleSlug, productScale) in CONFIG[productGroupSlug]['scales']"
+                                    ng-click="FilledForm.setProductScale(productScaleSlug)"
+                                    ng-class="{'btn-primary': FilledForm.getProductScale() == productScaleSlug}"
+                                    scroll-on-click href="#step-3">
+                                {{ productScale.name }}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -112,47 +107,45 @@
 
                     <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
                         <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
-                            <table class="table">
-                                <tr ng-repeat="(featureSlug, feature) in CONFIG[productGroupSlug]['additional-features']" ng-if="featureSlug != 'design'">
-                                    <td>
-                                        {{ feature.name }}
-                                    </td>
+                            <div class="row feature-step" ng-repeat="(featureSlug, feature) in CONFIG[productGroupSlug]['additional-features']" ng-if="featureSlug != 'design'">
+                                <div class="col-lg-9 feature-name">
+                                    {{ feature.name }}
+                                </div>
 
-                                    <td class="text-right">
-                                        <div ng-if="feature.extraForm && featureSlug == 'sns-login'">
-                                            <div class="checkbox" ng-repeat="(snsSlug, sns) in feature.lists">
-                                                <label>
-                                                    <input type="checkbox" name="sns[]" value="{{ snsSlug }}"
-                                                           ng-model="FilledForm.__extraFeatures[productGroupSlug][featureSlug][snsSlug]" ng-change="FilledForm.otherServiceFeatureChange()"
-                                                    />
+                                <div class="col-lg-3 feature-action">
+                                    <div class="sns-login" ng-if="feature.extraForm && featureSlug == 'sns-login'">
+                                        <div class="checkbox" ng-repeat="(snsSlug, sns) in feature.lists">
+                                            <label>
+                                                <input type="checkbox" name="sns[]" value="{{ snsSlug }}"
+                                                       ng-model="FilledForm.__extraFeatures[productGroupSlug][featureSlug][snsSlug]" ng-change="FilledForm.otherServiceFeatureChange()"
+                                                />
 
-                                                    {{ sns.name }}
-                                                </label>
+                                                {{ sns.name }}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-inline other-service-integration" ng-if="feature.extraForm && featureSlug == 'other-service-integration'">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" value="0" min="0" max="99" required="required"
+                                                       ng-init="FilledForm.__extraFeatures[productGroupSlug][featureSlug] = 0"
+                                                       ng-model="FilledForm.__extraFeatures[productGroupSlug][featureSlug]" ng-change="FilledForm.otherServiceFeatureChange()" />
+
+                                                <div class="input-group-addon">services</div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="form-inline" ng-if="feature.extraForm && featureSlug == 'other-service-integration'">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="number" class="form-control" value="0" min="0" max="99" required="required"
-                                                           ng-init="FilledForm.__extraFeatures[productGroupSlug][featureSlug] = 0"
-                                                           ng-model="FilledForm.__extraFeatures[productGroupSlug][featureSlug]" ng-change="FilledForm.otherServiceFeatureChange()" />
-
-                                                    <div class="input-group-addon">services</div>
-                                                </div>
-                                            </div>
+                                    <div ng-if="!feature.extraForm">
+                                        <div class="on-off-hub">
+                                            No
+                                            <switch id="enabled" name="enabled" ng-model="FilledForm.__additionalFeatures[productGroupSlug][featureSlug]"></switch>
+                                            Yes
                                         </div>
-
-                                        <div ng-if="!feature.extraForm">
-                                            <div class="on-off-hub">
-                                                No
-                                                <switch id="enabled" name="enabled" ng-model="FilledForm.__additionalFeatures[productGroupSlug][featureSlug]"></switch>
-                                                Yes
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -163,15 +156,13 @@
                     <hr />
 
                     <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
-                        <div class="row" ng-if="FilledForm.getProductGroup() == productGroupSlug">
-                            <div class="col-lg-4 col-xs-6 text-center"
-                                 ng-repeat="(qualitySlug, quality) in CONFIG[productGroupSlug]['quality']">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="FilledForm.setQuality(qualitySlug)"
-                                        ng-class="{'btn-primary': FilledForm.getQuality() == qualitySlug}">
-                                    {{ quality.name }}
-                                </button>
-                            </div>
+                        <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
+                            <button type="button" class="btn btn-default btn-lg"
+                                    ng-repeat="(qualitySlug, quality) in CONFIG[productGroupSlug]['quality']"
+                                    ng-click="FilledForm.setQuality(qualitySlug)"
+                                    ng-class="{'btn-primary': FilledForm.getQuality() == qualitySlug}">
+                                {{ quality.name }}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -200,7 +191,7 @@
                 <hr />
 
                 <div class="control text-center">
-                    <button type="button" class="btn btn-default"
+                    <button type="button" class="btn btn-default btn-lg"
                             ng-class="{'btn-primary': Accountant.getStep() == 5}"
                             ng-click="costEstimate.submit()">
                         Arrange a meeting

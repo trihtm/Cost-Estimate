@@ -69,29 +69,31 @@ body.ng-scope {
 .estimate-progress button {
     font-size: 16px;
     font-family: MerloRoundMedium;
+    margin: 10px;
 }
 
-.estimate-progress table {
+.estimate-progress .feature-step {
     font-size: 20px;
     font-family: MerloRoundMedium;
 }
 
-.estimate-progress table td,
-.estimate-progress table th {
-    border-top: none !important;
-}
-
-.estimate-progress table label,
-.estimate-progress table .input-group-addon {
+.estimate-progress .feature-step label,
+.estimate-progress .feature-step .input-group-addon {
     font-size: 16px;
     font-family: MerloRoundMedium;
 }
 
-.estimate-progress table input[type='checkbox'] {
+.estimate-progress .feature-step input[type='checkbox'] {
     width: 25px;
     height: 25px;
-    right: 80px;
-    top: -2px;
+    margin: 0 5px 0 0;
+    top: 7px;
+    position: relative;
+}
+
+.estimate-progress .other-service-integration {
+    max-width: 200px;
+    margin: 0 auto;
 }
 
 .footer.estimate-result {
@@ -130,11 +132,11 @@ body.ng-scope {
 }
 
 .estimate-result .dl-horizontal dt, .estimate-result .dl-horizontal dd {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 @media (min-width: 768px) {
-    .dl-horizontal dt {
+    .estimate-result .dl-horizontal dt {
         width: 170px !important;
     }
 }
@@ -147,6 +149,8 @@ body.ng-scope {
 .on-off-hub {
     font-size: 20px;
     font-family: MerloRoundMedium;
+    top: -5px;
+    position: relative;
 }
 
 .on-off-hub .switch {
@@ -166,17 +170,23 @@ body {
     margin-bottom: 310px;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 1024px) {
     body {
         margin: 0;
     }
 
     .footer.estimate-result {
-        position: relative;
+        position: absolute;
         height: auto;
     }
+}
 
-    dl.dl-horizontal dd, dl.dl-horizontal dt {
+@media screen and (max-width: 640px) {
+    .footer.estimate-result {
+        position: relative;
+    }
+
+    .estimate-result dl.dl-horizontal dd, dl.dl-horizontal dt {
         text-align: center !important;
     }
 
@@ -194,14 +204,28 @@ body {
 
     .estimate-progress button {
         font-size: 14px;
+        display: block;
+        margin: 10px auto;
     }
 
-    .estimate-progress table, .on-off-hub {
+    .estimate-progress .feature-step {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .estimate-progress .sns-login {
+        text-align: left;
+        width: 150px;
+        margin: 0 auto;
+    }
+
+    .on-off-hub {
         font-size: 14px;
+        text-align: center;
     }
 
-    .estimate-progress table label,
-    .estimate-progress table .input-group-addon {
+    .estimate-progress .feature-step label,
+    .estimate-progress .feature-step .input-group-addon {
         font-size: 14px;
     }
 
