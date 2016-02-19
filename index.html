@@ -107,47 +107,45 @@
 
                     <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
                         <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
-                            <table class="table">
-                                <tr ng-repeat="(featureSlug, feature) in CONFIG[productGroupSlug]['additional-features']" ng-if="featureSlug != 'design'">
-                                    <td>
-                                        {{ feature.name }}
-                                    </td>
+                            <div class="row feature-step" ng-repeat="(featureSlug, feature) in CONFIG[productGroupSlug]['additional-features']" ng-if="featureSlug != 'design'">
+                                <div class="col-lg-9 feature-name">
+                                    {{ feature.name }}
+                                </div>
 
-                                    <td class="text-right">
-                                        <div ng-if="feature.extraForm && featureSlug == 'sns-login'">
-                                            <div class="checkbox" ng-repeat="(snsSlug, sns) in feature.lists">
-                                                <label>
-                                                    <input type="checkbox" name="sns[]" value="{{ snsSlug }}"
-                                                           ng-model="FilledForm.__extraFeatures[productGroupSlug][featureSlug][snsSlug]" ng-change="FilledForm.otherServiceFeatureChange()"
-                                                    />
+                                <div class="col-lg-3 text-right feature-action">
+                                    <div ng-if="feature.extraForm && featureSlug == 'sns-login'">
+                                        <div class="checkbox" ng-repeat="(snsSlug, sns) in feature.lists">
+                                            <label>
+                                                <input type="checkbox" name="sns[]" value="{{ snsSlug }}"
+                                                       ng-model="FilledForm.__extraFeatures[productGroupSlug][featureSlug][snsSlug]" ng-change="FilledForm.otherServiceFeatureChange()"
+                                                />
 
-                                                    {{ sns.name }}
-                                                </label>
+                                                {{ sns.name }}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-inline" ng-if="feature.extraForm && featureSlug == 'other-service-integration'">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" value="0" min="0" max="99" required="required"
+                                                       ng-init="FilledForm.__extraFeatures[productGroupSlug][featureSlug] = 0"
+                                                       ng-model="FilledForm.__extraFeatures[productGroupSlug][featureSlug]" ng-change="FilledForm.otherServiceFeatureChange()" />
+
+                                                <div class="input-group-addon">services</div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="form-inline" ng-if="feature.extraForm && featureSlug == 'other-service-integration'">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="number" class="form-control" value="0" min="0" max="99" required="required"
-                                                           ng-init="FilledForm.__extraFeatures[productGroupSlug][featureSlug] = 0"
-                                                           ng-model="FilledForm.__extraFeatures[productGroupSlug][featureSlug]" ng-change="FilledForm.otherServiceFeatureChange()" />
-
-                                                    <div class="input-group-addon">services</div>
-                                                </div>
-                                            </div>
+                                    <div ng-if="!feature.extraForm">
+                                        <div class="on-off-hub">
+                                            No
+                                            <switch id="enabled" name="enabled" ng-model="FilledForm.__additionalFeatures[productGroupSlug][featureSlug]"></switch>
+                                            Yes
                                         </div>
-
-                                        <div ng-if="!feature.extraForm">
-                                            <div class="on-off-hub">
-                                                No
-                                                <switch id="enabled" name="enabled" ng-model="FilledForm.__additionalFeatures[productGroupSlug][featureSlug]"></switch>
-                                                Yes
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

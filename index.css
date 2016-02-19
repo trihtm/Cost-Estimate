@@ -72,23 +72,18 @@ body.ng-scope {
     margin: 10px;
 }
 
-.estimate-progress table {
+.estimate-progress .feature-step {
     font-size: 20px;
     font-family: MerloRoundMedium;
 }
 
-.estimate-progress table td,
-.estimate-progress table th {
-    border-top: none !important;
-}
-
-.estimate-progress table label,
-.estimate-progress table .input-group-addon {
+.estimate-progress .feature-step label,
+.estimate-progress .feature-step .input-group-addon {
     font-size: 16px;
     font-family: MerloRoundMedium;
 }
 
-.estimate-progress table input[type='checkbox'] {
+.estimate-progress .feature-step input[type='checkbox'] {
     width: 25px;
     height: 25px;
     right: 80px;
@@ -135,7 +130,7 @@ body.ng-scope {
 }
 
 @media (min-width: 768px) {
-    .dl-horizontal dt {
+    .estimate-result .dl-horizontal dt {
         width: 170px !important;
     }
 }
@@ -148,6 +143,8 @@ body.ng-scope {
 .on-off-hub {
     font-size: 20px;
     font-family: MerloRoundMedium;
+    top: -5px;
+    position: relative;
 }
 
 .on-off-hub .switch {
@@ -177,7 +174,7 @@ body {
         height: auto;
     }
 
-    dl.dl-horizontal dd, dl.dl-horizontal dt {
+    .estimate-result dl.dl-horizontal dd, dl.dl-horizontal dt {
         text-align: center !important;
     }
 
@@ -195,14 +192,17 @@ body {
 
     .estimate-progress button {
         font-size: 14px;
+        display: block;
+        margin: 10px auto;
     }
 
-    .estimate-progress table, .on-off-hub {
+    .estimate-progress .feature-step, .on-off-hub {
         font-size: 14px;
+        text-align: center;
     }
 
-    .estimate-progress table label,
-    .estimate-progress table .input-group-addon {
+    .estimate-progress .feature-step label,
+    .estimate-progress .feature-step .input-group-addon {
         font-size: 14px;
     }
 
