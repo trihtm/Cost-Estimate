@@ -170,14 +170,20 @@ body {
     margin-bottom: 310px;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 1024px) {
     body {
         margin: 0;
     }
 
     .footer.estimate-result {
-        position: relative;
+        position: absolute;
         height: auto;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .footer.estimate-result {
+        position: relative;
     }
 
     .estimate-result dl.dl-horizontal dd, dl.dl-horizontal dt {
