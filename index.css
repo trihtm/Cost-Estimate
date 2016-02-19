@@ -86,8 +86,14 @@ body.ng-scope {
 .estimate-progress .feature-step input[type='checkbox'] {
     width: 25px;
     height: 25px;
-    right: 80px;
-    top: -2px;
+    margin: 0 5px 0 0;
+    top: 7px;
+    position: relative;
+}
+
+.estimate-progress .other-service-integration {
+    max-width: 200px;
+    margin: 0 auto;
 }
 
 .footer.estimate-result {
@@ -196,7 +202,18 @@ body {
         margin: 10px auto;
     }
 
-    .estimate-progress .feature-step, .on-off-hub {
+    .estimate-progress .feature-step {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .estimate-progress .sns-login {
+        text-align: left;
+        width: 150px;
+        margin: 0 auto;
+    }
+
+    .on-off-hub {
         font-size: 14px;
         text-align: center;
     }
