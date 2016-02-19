@@ -131,7 +131,7 @@ body.ng-scope {
 }
 
 .estimate-result .dl-horizontal dt, .estimate-result .dl-horizontal dd {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 @media (min-width: 768px) {
