@@ -36,15 +36,14 @@
 
                 <hr />
 
-                <div class="row">
-                    <div class="col-md-3 col-sm-6 text-center" ng-repeat="(key, productGroup) in CONFIG">
-                        <button type="button" class="btn btn-default"
-                                ng-click="FilledForm.setProductGroup(key)"
-                                ng-class="{'btn-primary': FilledForm.getProductGroup() == key}"
-                                scroll-on-click href="#step-1">
-                            {{ productGroup.name }}
-                        </button>
-                    </div>
+                <div>
+                    <button type="button" class="btn btn-default"
+                        ng-repeat="(key, productGroup) in CONFIG"
+                        ng-click="FilledForm.setProductGroup(key)"
+                        ng-class="{'btn-primary': FilledForm.getProductGroup() == key}"
+                        scroll-on-click href="#step-1">
+                        {{ productGroup.name }}
+                    </button>
                 </div>
 
                 <div ng-if="Accountant.getStep() >= 2">
@@ -53,16 +52,14 @@
                     <hr />
 
                     <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
-                        <div class="row" ng-if="FilledForm.getProductGroup() == productGroupSlug">
-                            <div class="col-sm-4 text-center"
-                                 ng-repeat="(productTypeSlug, productType) in CONFIG[productGroupSlug]['types']">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="FilledForm.setProductType(productTypeSlug)"
-                                        ng-class="{'btn-primary': FilledForm.isProductTypeChoosen(productTypeSlug)}"
-                                        scroll-on-click href="#step-2">
-                                    {{ productType.name }}
-                                </button>
-                            </div>
+                        <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
+                            <button type="button" class="btn btn-default"
+                                    ng-repeat="(productTypeSlug, productType) in CONFIG[productGroupSlug]['types']"
+                                    ng-click="FilledForm.setProductType(productTypeSlug)"
+                                    ng-class="{'btn-primary': FilledForm.isProductTypeChoosen(productTypeSlug)}"
+                                    scroll-on-click href="#step-2">
+                                {{ productType.name }}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -73,16 +70,14 @@
                     <hr />
 
                     <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
-                        <div class="row" ng-if="FilledForm.getProductGroup() == productGroupSlug">
-                            <div class="col-sm-4 text-center"
-                                 ng-repeat="(productScaleSlug, productScale) in CONFIG[productGroupSlug]['scales']">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="FilledForm.setProductScale(productScaleSlug)"
-                                        ng-class="{'btn-primary': FilledForm.getProductScale() == productScaleSlug}"
-                                        scroll-on-click href="#step-3">
-                                    {{ productScale.name }}
-                                </button>
-                            </div>
+                        <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
+                            <button type="button" class="btn btn-default"
+                                    ng-repeat="(productScaleSlug, productScale) in CONFIG[productGroupSlug]['scales']"
+                                    ng-click="FilledForm.setProductScale(productScaleSlug)"
+                                    ng-class="{'btn-primary': FilledForm.getProductScale() == productScaleSlug}"
+                                    scroll-on-click href="#step-3">
+                                {{ productScale.name }}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -163,15 +158,13 @@
                     <hr />
 
                     <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
-                        <div class="row" ng-if="FilledForm.getProductGroup() == productGroupSlug">
-                            <div class="col-lg-4 col-xs-6 text-center"
-                                 ng-repeat="(qualitySlug, quality) in CONFIG[productGroupSlug]['quality']">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="FilledForm.setQuality(qualitySlug)"
-                                        ng-class="{'btn-primary': FilledForm.getQuality() == qualitySlug}">
-                                    {{ quality.name }}
-                                </button>
-                            </div>
+                        <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
+                            <button type="button" class="btn btn-default"
+                                    ng-repeat="(qualitySlug, quality) in CONFIG[productGroupSlug]['quality']"
+                                    ng-click="FilledForm.setQuality(qualitySlug)"
+                                    ng-class="{'btn-primary': FilledForm.getQuality() == qualitySlug}">
+                                {{ quality.name }}
+                            </button>
                         </div>
                     </div>
                 </div>
