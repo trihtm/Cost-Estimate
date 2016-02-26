@@ -2,7 +2,7 @@
 
 ## How to install
 
-1. You must run gulp tasks.
+You must run gulp tasks.
 
 > cd tools/gulp
 
@@ -10,4 +10,4 @@
 
 > gulp
 
-2. Finally access to index.html
+Finally access to index.html
