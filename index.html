@@ -198,6 +198,62 @@
             </div>
         </div>
 
+        <script type="text/ng-template" id="contactDialog">
+            <div id="contact-box">
+                <h3>Arrange a meeting with <br />INNOVATUBE solutions</h3>
+
+                <div>
+                    <label for="projectName">Project name</label>
+
+                    <div>
+                        <input type="text" name="projectName" id="projectName" />
+                    </div>
+                </div>
+
+                <div>
+                    <label for="contactName">Contact name</label>
+
+                    <div>
+                        <input type="text" name="contactName" id="contactName" />
+                    </div>
+                </div>
+
+                <div>
+                    <label for="email">Email</label>
+
+                    <div>
+                        <input type="text" name="email" id="email" />
+                    </div>
+                </div>
+
+                <div>
+                    <label for="startAt">When do you want us to start</label>
+
+                    <div>
+                        <select name="startAt" id="startAt">
+                            <option value="now">Now</option>
+                            <option value="1-week">1 week</option>
+                            <option value="2-weeks">2 weeks</option>
+                            <option value="1-month">1 month</option>
+                            <option value="2-months">2 months</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="tos">
+                        <input type="checkbox" name="tos" id="tos" />
+
+                        I would like to sign a <a href="#">Non Disclosure Agreement</a> with INNOVATUBE solutions.</a>
+                    </label>
+                </div>
+
+                <div>
+                    <input type="submit" name="submit" id="submit" class="btn btn-default btn-warning" value="Send" />
+                </div>
+            </div>
+        </script>
+
         <script type="text/javascript" src="dist/index.js"></script>
     </body>
 </html>

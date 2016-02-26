@@ -15,8 +15,8 @@ module.exports = {
     'dist/index.js': [
         'bower_components/angular/angular.min.js',
         'bower_components/angular-ui-switch/angular-ui-switch.min.js',
+        'bower_components/angular-ng-dialog/js/ngDialog.min.js',
         'bower_components/jquery/dist/jquery.min.js',
-        'bower_components/jquery.bpopup/jquery.bpopup.min.js',
         'bower_components/apprise/js/apprise-1.5.min.js',
         'config.js',
         'index.js'
