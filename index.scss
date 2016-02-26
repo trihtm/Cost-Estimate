@@ -38,6 +38,7 @@
 body {
     display: none;
     font-family: MerloRound;
+    background: #F6F4ED;
 }
 
 body.ng-scope {
@@ -99,28 +100,26 @@ body.ng-scope {
 .footer.estimate-result {
     background-color: #4B4B4B;
     color: #fff;
-    padding: 30px 0;
+    padding: 20px 0;
     position: fixed;
     bottom: 0;
     width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 310px;
+    height: 270px;
     z-index: 100;
 }
 
 .estimate-result h3 {
     padding: 0;
     margin: 0;
-    font-size: 30px;
-    font-family: MerloRoundBold;
+    font-family: MerloRoundMedium;
 }
 
 .estimate-result .container {
     max-width: 600px;
     width: auto !important;
     text-align: center;
-    font-size: 16px;
-    font-family: MerloRoundBold;
+    font-size: 15px;
+    font-family: MerloRoundMedium;
 }
 
 .estimate-result .dl-horizontal {
@@ -167,23 +166,28 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    margin-bottom: 310px;
+    margin-bottom: 270px;
 }
 
 @media screen and (max-width: 1024px) {
+    //body {
+    //    margin: 0;
+    //}
+
+    .footer.estimate-result {
+        position: absolute;
+        //height: auto;
+    }
+}
+
+@media screen and (max-width: 640px) {
     body {
         margin: 0;
     }
 
     .footer.estimate-result {
-        position: absolute;
-        height: auto;
-    }
-}
-
-@media screen and (max-width: 640px) {
-    .footer.estimate-result {
         position: relative;
+        height: auto;
     }
 
     .estimate-result dl.dl-horizontal dd, dl.dl-horizontal dt {
@@ -236,4 +240,35 @@ body {
     .estimate-result .container {
         font-size: 14px;
     }
+}
+
+/*********************** HOOKS STYLES **************************************/
+
+.btn-primary {
+    background-color: #7DB1C0;
+    border-color: #6B98A6;
+
+    &:focus, &:hover, &:active, &.active {
+        background-color: darken(#7DB1C0, 10%);
+        border-color: darken(#6B98A6, 10%);
+    }
+}
+
+.btn-warning {
+    background-color: #DE6D2B;
+    border-color: #DE6D2B;
+
+    &:focus, &:hover, &:active, &.active {
+        background-color: darken(#DE6D2B, 10%);
+        border-color: darken(#DE6D2B, 10%);
+    }
+}
+
+hr {
+    border-top-color: #969696;
+}
+
+.switch.checked {
+    border-color: #7DB1C0;
+    background-color: #7DB1C0;
 }
