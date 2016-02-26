@@ -482,9 +482,13 @@ app.controller('costEstimateController', [
     /******************* SUBMIT *****************/
     costEstimateController.submit = function () {
         if (Accountant.getStep() >= 5) {
-            window.location.href = 'http://innovatube.com/contact-us/';
+            $('element_to_pop_up').bPopup({
+                easing: 'easeOutBack', //uses jQuery easing plugin
+                speed: 450,
+                transition: 'slideDown'
+            });
         } else {
-            alert('Please fill all information.');
+            apprise('Please fill all information.');
         }
     };
 }]);

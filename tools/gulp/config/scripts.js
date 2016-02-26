@@ -17,6 +17,7 @@ module.exports = {
         'bower_components/angular-ui-switch/angular-ui-switch.min.js',
         'bower_components/jquery/dist/jquery.min.js',
         'bower_components/jquery.bpopup/jquery.bpopup.min.js',
+        'bower_components/apprise/js/apprise-1.5.min.js',
         'config.js',
         'index.js'
     ]
