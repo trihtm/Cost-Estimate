@@ -1,2 +1,5 @@
 /node_modules
+/dist
+/tools/gulp/node_modules
+/index.css
 /.idea
