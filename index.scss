@@ -38,6 +38,7 @@
 body {
     display: none;
     font-family: MerloRound;
+    background: #F6F4ED;
 }
 
 body.ng-scope {
@@ -99,32 +100,50 @@ body.ng-scope {
 .footer.estimate-result {
     background-color: #4B4B4B;
     color: #fff;
-    padding: 30px 0;
+    padding: 20px 0;
     position: fixed;
     bottom: 0;
     width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 310px;
+    height: 250px;
     z-index: 100;
+
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=95)";
+
+    /* IE 5-7 */
+    filter: alpha(opacity=95);
+
+    /* Netscape */
+    -moz-opacity: 0.95;
+
+    /* Safari 1.x */
+    -khtml-opacity: 0.95;
+
+    /* Good browsers */
+    opacity: 0.95;
+
+    hr {
+        margin: 15px 0;
+    }
 }
 
 .estimate-result h3 {
     padding: 0;
     margin: 0;
-    font-size: 30px;
-    font-family: MerloRoundBold;
+    font-family: MerloRoundMedium;
 }
 
 .estimate-result .container {
     max-width: 600px;
     width: auto !important;
     text-align: center;
-    font-size: 16px;
-    font-family: MerloRoundBold;
+    font-size: 15px;
+    font-family: MerloRoundMedium;
 }
 
 .estimate-result .dl-horizontal {
     padding: 0 30px;
+    margin: 0;
 }
 
 .estimate-result .dl-horizontal dd {
@@ -167,23 +186,28 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    margin-bottom: 310px;
+    margin-bottom: 250px;
 }
 
 @media screen and (max-width: 1024px) {
+    //body {
+    //    margin: 0;
+    //}
+
+    .footer.estimate-result {
+        position: absolute;
+        //height: auto;
+    }
+}
+
+@media screen and (max-width: 640px) {
     body {
         margin: 0;
     }
 
     .footer.estimate-result {
-        position: absolute;
-        height: auto;
-    }
-}
-
-@media screen and (max-width: 640px) {
-    .footer.estimate-result {
         position: relative;
+        height: auto;
     }
 
     .estimate-result dl.dl-horizontal dd, dl.dl-horizontal dt {
@@ -236,4 +260,120 @@ body {
     .estimate-result .container {
         font-size: 14px;
     }
+}
+
+/*********************** HOOKS STYLES **************************************/
+
+.btn-primary {
+    background-color: #7DB1C0;
+    border-color: #6B98A6;
+
+    &:focus, &:hover, &:active, &.active {
+        background-color: darken(#7DB1C0, 10%);
+        border-color: darken(#6B98A6, 10%);
+    }
+}
+
+.btn-warning {
+    background-color: #DE6D2B;
+    border-color: #DE6D2B;
+
+    &:focus, &:hover, &:active, &.active {
+        background-color: darken(#DE6D2B, 10%);
+        border-color: darken(#DE6D2B, 10%);
+    }
+}
+
+hr {
+    border-top-color: #969696;
+}
+
+.switch.checked {
+    border-color: #7DB1C0;
+    background-color: #7DB1C0;
+}
+
+/***************** CONTACT form **********************/
+#contact-box {
+    h3 {
+        margin-top: 0;
+        text-align: center;
+        font-family: MerloRoundBold;
+        font-size: 30px;
+        line-height: 40px;
+        color: #5c5c5c;
+    }
+
+    label {
+        font-family: MerloRound;
+        font-size: 20px;
+        color: #5c5c5c;
+    }
+
+    .tos {
+        input#tos {
+            width: 40px;
+            height: 40px;
+        }
+
+        label {
+            font-size: 14px;
+        }
+
+        .tos-content {
+            width: 300px;
+            margin-left: 10px;
+            margin-top: 5px;
+        }
+    }
+
+    .form-submit {
+        margin: 0;
+    }
+}
+
+.ngdialog-overlay {
+    background: rgba(0, 0, 0, 0.5) !important;
+}
+
+.ngdialog-content {
+    background: #fff !important;
+}
+
+.ngdialog.ngdialog-theme-custom {
+    padding-top: 125px;
+    padding-bottom: 125px;
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-overlay {
+    background: rgba(255,255,255,.5);
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-content {
+    background: rgba(255,255,255,.9);
+    padding: 1.8em 2em;
+    width: 440px;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-message h2 {
+    font-size: 26px;
+    line-height: 30px;
+    margin-bottom: 20px;
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-message {
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-message ul {
+    padding: 0 0 5px 35px;
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-button.ngdialog-button-primary {
+    background: #27ae60;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }

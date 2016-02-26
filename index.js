@@ -1,4 +1,4 @@
-var app = angular.module('costEstimateApp', ['uiSwitch']);
+var app = angular.module('costEstimateApp', ['uiSwitch', 'ngDialog']);
 
 app.directive('scrollOnClick', function() {
     return {
@@ -462,12 +462,14 @@ app.controller('costEstimateController', [
     'Accountant',
     'FilledForm',
     'CONSTANT',
+    'ngDialog',
     function (
         $scope,
         NumberHelper,
         Accountant,
         FilledForm,
-        CONSTANT
+        CONSTANT,
+        ngDialog
     ) {
 
     var costEstimateController = this;
@@ -482,9 +484,12 @@ app.controller('costEstimateController', [
     /******************* SUBMIT *****************/
     costEstimateController.submit = function () {
         if (Accountant.getStep() >= 5) {
-            window.location.href = 'http://innovatube.com/contact-us/';
+            ngDialog.open({
+                template: 'contactDialog',
+                className: 'ngdialog-theme-default ngdialog-theme-custom'
+            });
         } else {
-            alert('Please fill all information.');
+            apprise('Please fill all information.');
         }
     };
 }]);

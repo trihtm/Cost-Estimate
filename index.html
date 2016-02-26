@@ -7,9 +7,7 @@
 
         <title>Cost Estimate</title>
 
-        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="bower_components/angular-ui-switch/angular-ui-switch.min.css">
-        <link href="index.css" rel="stylesheet" />
+        <link href="./dist/index.css" rel="stylesheet" />
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -108,11 +106,11 @@
                     <div ng-repeat="(productGroupSlug, productGroup) in CONFIG">
                         <div ng-if="FilledForm.getProductGroup() == productGroupSlug">
                             <div class="row feature-step" ng-repeat="(featureSlug, feature) in CONFIG[productGroupSlug]['additional-features']" ng-if="featureSlug != 'design'">
-                                <div class="col-lg-9 feature-name">
+                                <div class="col-sm-9 feature-name">
                                     {{ feature.name }}
                                 </div>
 
-                                <div class="col-lg-3 feature-action">
+                                <div class="col-sm-3 feature-action">
                                     <div class="sns-login" ng-if="feature.extraForm && featureSlug == 'sns-login'">
                                         <div class="checkbox" ng-repeat="(snsSlug, sns) in feature.lists">
                                             <label>
@@ -192,7 +190,7 @@
 
                 <div class="control text-center">
                     <button type="button" class="btn btn-default btn-lg"
-                            ng-class="{'btn-primary': Accountant.getStep() == 5}"
+                            ng-class="{'btn-warning': Accountant.getStep() == 5}"
                             ng-click="costEstimate.submit()">
                         Arrange a meeting
                     </button>
@@ -200,10 +198,68 @@
             </div>
         </div>
 
-        <script src="bower_components/angular/angular.min.js" type="text/javascript"></script>
-        <script type="text/javascript" src="bower_components/angular-ui-switch/angular-ui-switch.min.js"></script>
-        <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-        <script type="text/javascript" src="config.js"></script>
-        <script type="text/javascript" src="index.js"></script>
+        <script type="text/ng-template" id="contactDialog">
+            <div id="contact-box">
+                <h3>Arrange a meeting with <br />INNOVATUBE solutions</h3>
+
+                <div class="form-group">
+                    <label for="projectName">Project name</label>
+
+                    <div>
+                        <input type="text" name="projectName" id="projectName" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactName">Contact name</label>
+
+                    <div>
+                        <input type="text" name="contactName" id="contactName" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+
+                    <div>
+                        <input type="text" name="email" id="email" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="startAt">When do you want us to start</label>
+
+                    <div>
+                        <select name="startAt" id="startAt" class="form-control">
+                            <option value="now">Now</option>
+                            <option value="1-week">1 week</option>
+                            <option value="2-weeks">2 weeks</option>
+                            <option value="1-month">1 month</option>
+                            <option value="2-months">2 months</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group tos">
+                    <label for="tos">
+                        <div class="pull-left">
+                            <input type="checkbox" name="tos" id="tos" />
+                        </div>
+
+                        <div class="pull-left tos-content">
+                            I would like to sign a <a href="#">Non Disclosure Agreement</a> with INNOVATUBE solutions.</a>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </label>
+                </div>
+
+                <div class="form-group text-center form-submit">
+                    <input type="submit" name="submit" id="submit" class="btn btn-default btn-warning btn-lg" value="Send" />
+                </div>
+            </div>
+        </script>
+
+        <script type="text/javascript" src="dist/index.js"></script>
     </body>
 </html>
