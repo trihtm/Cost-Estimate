@@ -12,5 +12,12 @@ Array.prototype.unique = function() {
 };
 
 module.exports = {
-
+    'dist/index.js': [
+        'bower_components/angular/angular.min.js',
+        'bower_components/angular-ui-switch/angular-ui-switch.min.js',
+        'bower_components/jquery/dist/jquery.min.js',
+        'bower_components/jquery.bpopup/jquery.bpopup.min.js',
+        'config.js',
+        'index.js'
+    ]
 };
